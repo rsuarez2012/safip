@@ -1,0 +1,153 @@
+[26-Apr-2018 13:54:02 UTC] PHP Fatal error:  Uncaught Error: Class 'Composer\Autoload\ComposerStaticInit629a4232839a58647aa4e00bffed4395' not found in /home/qantutra/safip/vendor/composer/autoload_real.php:30
+Stack trace:
+#0 /home/qantutra/safip/vendor/autoload.php(7): ComposerAutoloaderInit629a4232839a58647aa4e00bffed4395::getLoader()
+#1 /home/qantutra/safip/bootstrap/autoload.php(17): require('/home/qantutra/...')
+#2 /home/qantutra/safip/public/index.php(22): require('/home/qantutra/...')
+#3 {main}
+  thrown in /home/qantutra/safip/vendor/composer/autoload_real.php on line 30
+[26-Apr-2018 13:54:13 UTC] PHP Fatal error:  Uncaught Error: Class 'Composer\Autoload\ClassLoader' not found in /home/qantutra/safip/vendor/composer/autoload_real.php:23
+Stack trace:
+#0 /home/qantutra/safip/vendor/autoload.php(7): ComposerAutoloaderInit629a4232839a58647aa4e00bffed4395::getLoader()
+#1 /home/qantutra/safip/bootstrap/autoload.php(17): require('/home/qantutra/...')
+#2 /home/qantutra/safip/public/index.php(22): require('/home/qantutra/...')
+#3 {main}
+  thrown in /home/qantutra/safip/vendor/composer/autoload_real.php on line 23
+[26-Apr-2018 13:54:13 UTC] PHP Fatal error:  Uncaught Error: Class 'Composer\Autoload\ClassLoader' not found in /home/qantutra/safip/vendor/composer/autoload_real.php:23
+Stack trace:
+#0 /home/qantutra/safip/vendor/autoload.php(7): ComposerAutoloaderInit629a4232839a58647aa4e00bffed4395::getLoader()
+#1 /home/qantutra/safip/bootstrap/autoload.php(17): require('/home/qantutra/...')
+#2 /home/qantutra/safip/public/index.php(22): require('/home/qantutra/...')
+#3 {main}
+  thrown in /home/qantutra/safip/vendor/composer/autoload_real.php on line 23
+[26-Apr-2018 13:58:04 UTC] PHP Warning:  require(/home/qantutra/safip/vendor/composer/../symfony/polyfill-php70/bootstrap.php): failed to open stream: No such file or directory in /home/qantutra/safip/vendor/composer/autoload_real.php on line 66
+[26-Apr-2018 13:58:04 UTC] PHP Fatal error:  require(): Failed opening required '/home/qantutra/safip/vendor/composer/../symfony/polyfill-php70/bootstrap.php' (include_path='.:/opt/alt/php70/usr/share/pear') in /home/qantutra/safip/vendor/composer/autoload_real.php on line 66
+[26-Apr-2018 13:58:46 UTC] PHP Warning:  require(/home/qantutra/safip/vendor/composer/../symfony/polyfill-php70/bootstrap.php): failed to open stream: No such file or directory in /home/qantutra/safip/vendor/composer/autoload_real.php on line 66
+[26-Apr-2018 13:58:46 UTC] PHP Fatal error:  require(): Failed opening required '/home/qantutra/safip/vendor/composer/../symfony/polyfill-php70/bootstrap.php' (include_path='.:/opt/alt/php70/usr/share/pear') in /home/qantutra/safip/vendor/composer/autoload_real.php on line 66
+[26-Apr-2018 13:58:54 UTC] PHP Warning:  require(/home/qantutra/safip/vendor/composer/../symfony/polyfill-php70/bootstrap.php): failed to open stream: No such file or directory in /home/qantutra/safip/vendor/composer/autoload_real.php on line 66
+[26-Apr-2018 13:58:54 UTC] PHP Fatal error:  require(): Failed opening required '/home/qantutra/safip/vendor/composer/../symfony/polyfill-php70/bootstrap.php' (include_path='.:/opt/alt/php70/usr/share/pear') in /home/qantutra/safip/vendor/composer/autoload_real.php on line 66
+[26-Apr-2018 13:58:55 UTC] PHP Warning:  require(/home/qantutra/safip/vendor/composer/../symfony/polyfill-php70/bootstrap.php): failed to open stream: No such file or directory in /home/qantutra/safip/vendor/composer/autoload_real.php on line 66
+[26-Apr-2018 13:58:55 UTC] PHP Fatal error:  require(): Failed opening required '/home/qantutra/safip/vendor/composer/../symfony/polyfill-php70/bootstrap.php' (include_path='.:/opt/alt/php70/usr/share/pear') in /home/qantutra/safip/vendor/composer/autoload_real.php on line 66
+[26-Apr-2018 13:58:56 UTC] PHP Warning:  require(/home/qantutra/safip/vendor/composer/../symfony/polyfill-php70/bootstrap.php): failed to open stream: No such file or directory in /home/qantutra/safip/vendor/composer/autoload_real.php on line 66
+[26-Apr-2018 13:58:56 UTC] PHP Fatal error:  require(): Failed opening required '/home/qantutra/safip/vendor/composer/../symfony/polyfill-php70/bootstrap.php' (include_path='.:/opt/alt/php70/usr/share/pear') in /home/qantutra/safip/vendor/composer/autoload_real.php on line 66
+[26-Apr-2018 13:59:16 UTC] PHP Warning:  require(/home/qantutra/safip/vendor/composer/../symfony/polyfill-php70/bootstrap.php): failed to open stream: No such file or directory in /home/qantutra/safip/vendor/composer/autoload_real.php on line 66
+[26-Apr-2018 13:59:16 UTC] PHP Fatal error:  require(): Failed opening required '/home/qantutra/safip/vendor/composer/../symfony/polyfill-php70/bootstrap.php' (include_path='.:/opt/alt/php70/usr/share/pear') in /home/qantutra/safip/vendor/composer/autoload_real.php on line 66
+[26-Apr-2018 13:59:21 UTC] PHP Warning:  require(/home/qantutra/safip/vendor/composer/../symfony/polyfill-php70/bootstrap.php): failed to open stream: No such file or directory in /home/qantutra/safip/vendor/composer/autoload_real.php on line 66
+[26-Apr-2018 13:59:21 UTC] PHP Fatal error:  require(): Failed opening required '/home/qantutra/safip/vendor/composer/../symfony/polyfill-php70/bootstrap.php' (include_path='.:/opt/alt/php70/usr/share/pear') in /home/qantutra/safip/vendor/composer/autoload_real.php on line 66
+[26-Apr-2018 13:59:36 UTC] PHP Warning:  require(/home/qantutra/safip/vendor/composer/../guzzlehttp/promises/src/functions_include.php): failed to open stream: No such file or directory in /home/qantutra/safip/vendor/composer/autoload_real.php on line 66
+[26-Apr-2018 13:59:36 UTC] PHP Fatal error:  require(): Failed opening required '/home/qantutra/safip/vendor/composer/../guzzlehttp/promises/src/functions_include.php' (include_path='.:/opt/alt/php70/usr/share/pear') in /home/qantutra/safip/vendor/composer/autoload_real.php on line 66
+[26-Apr-2018 13:59:38 UTC] PHP Warning:  require(/home/qantutra/safip/vendor/composer/../guzzlehttp/promises/src/functions_include.php): failed to open stream: No such file or directory in /home/qantutra/safip/vendor/composer/autoload_real.php on line 66
+[26-Apr-2018 13:59:38 UTC] PHP Fatal error:  require(): Failed opening required '/home/qantutra/safip/vendor/composer/../guzzlehttp/promises/src/functions_include.php' (include_path='.:/opt/alt/php70/usr/share/pear') in /home/qantutra/safip/vendor/composer/autoload_real.php on line 66
+[26-Apr-2018 13:59:39 UTC] PHP Warning:  require(/home/qantutra/safip/vendor/composer/../guzzlehttp/promises/src/functions_include.php): failed to open stream: No such file or directory in /home/qantutra/safip/vendor/composer/autoload_real.php on line 66
+[26-Apr-2018 13:59:39 UTC] PHP Fatal error:  require(): Failed opening required '/home/qantutra/safip/vendor/composer/../guzzlehttp/promises/src/functions_include.php' (include_path='.:/opt/alt/php70/usr/share/pear') in /home/qantutra/safip/vendor/composer/autoload_real.php on line 66
+[26-Apr-2018 13:59:40 UTC] PHP Warning:  require(/home/qantutra/safip/vendor/composer/../guzzlehttp/promises/src/functions_include.php): failed to open stream: No such file or directory in /home/qantutra/safip/vendor/composer/autoload_real.php on line 66
+[26-Apr-2018 13:59:40 UTC] PHP Fatal error:  require(): Failed opening required '/home/qantutra/safip/vendor/composer/../guzzlehttp/promises/src/functions_include.php' (include_path='.:/opt/alt/php70/usr/share/pear') in /home/qantutra/safip/vendor/composer/autoload_real.php on line 66
+[26-Apr-2018 13:59:40 UTC] PHP Warning:  require(/home/qantutra/safip/vendor/composer/../guzzlehttp/promises/src/functions_include.php): failed to open stream: No such file or directory in /home/qantutra/safip/vendor/composer/autoload_real.php on line 66
+[26-Apr-2018 13:59:40 UTC] PHP Fatal error:  require(): Failed opening required '/home/qantutra/safip/vendor/composer/../guzzlehttp/promises/src/functions_include.php' (include_path='.:/opt/alt/php70/usr/share/pear') in /home/qantutra/safip/vendor/composer/autoload_real.php on line 66
+[26-Apr-2018 14:00:08 UTC] PHP Warning:  require(/home/qantutra/safip/vendor/composer/../guzzlehttp/promises/src/functions_include.php): failed to open stream: No such file or directory in /home/qantutra/safip/vendor/composer/autoload_real.php on line 66
+[26-Apr-2018 14:00:08 UTC] PHP Fatal error:  require(): Failed opening required '/home/qantutra/safip/vendor/composer/../guzzlehttp/promises/src/functions_include.php' (include_path='.:/opt/alt/php70/usr/share/pear') in /home/qantutra/safip/vendor/composer/autoload_real.php on line 66
+[26-Apr-2018 14:00:32 UTC] PHP Warning:  require(/home/qantutra/safip/vendor/composer/../guzzlehttp/promises/src/functions_include.php): failed to open stream: No such file or directory in /home/qantutra/safip/vendor/composer/autoload_real.php on line 66
+[26-Apr-2018 14:00:32 UTC] PHP Fatal error:  require(): Failed opening required '/home/qantutra/safip/vendor/composer/../guzzlehttp/promises/src/functions_include.php' (include_path='.:/opt/alt/php70/usr/share/pear') in /home/qantutra/safip/vendor/composer/autoload_real.php on line 66
+[26-Apr-2018 14:00:44 UTC] PHP Warning:  require(/home/qantutra/safip/vendor/composer/../guzzlehttp/promises/src/functions_include.php): failed to open stream: No such file or directory in /home/qantutra/safip/vendor/composer/autoload_real.php on line 66
+[26-Apr-2018 14:00:44 UTC] PHP Fatal error:  require(): Failed opening required '/home/qantutra/safip/vendor/composer/../guzzlehttp/promises/src/functions_include.php' (include_path='.:/opt/alt/php70/usr/share/pear') in /home/qantutra/safip/vendor/composer/autoload_real.php on line 66
+[26-Apr-2018 14:00:47 UTC] PHP Warning:  require(/home/qantutra/safip/vendor/composer/../guzzlehttp/promises/src/functions_include.php): failed to open stream: No such file or directory in /home/qantutra/safip/vendor/composer/autoload_real.php on line 66
+[26-Apr-2018 14:00:47 UTC] PHP Fatal error:  require(): Failed opening required '/home/qantutra/safip/vendor/composer/../guzzlehttp/promises/src/functions_include.php' (include_path='.:/opt/alt/php70/usr/share/pear') in /home/qantutra/safip/vendor/composer/autoload_real.php on line 66
+[26-Apr-2018 14:00:58 UTC] PHP Warning:  require(/home/qantutra/safip/vendor/composer/../guzzlehttp/promises/src/functions_include.php): failed to open stream: No such file or directory in /home/qantutra/safip/vendor/composer/autoload_real.php on line 66
+[26-Apr-2018 14:00:58 UTC] PHP Fatal error:  require(): Failed opening required '/home/qantutra/safip/vendor/composer/../guzzlehttp/promises/src/functions_include.php' (include_path='.:/opt/alt/php70/usr/share/pear') in /home/qantutra/safip/vendor/composer/autoload_real.php on line 66
+[26-Apr-2018 14:37:24 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Support\Collection' not found in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/helpers.php:393
+Stack trace:
+#0 /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(95): collect(Array)
+#1 /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(61): Illuminate\Foundation\Exceptions\Handler->shouldntReport(Object(Symfony\Component\Debug\Exception\FatalThrowableError))
+#2 /home/qantutra/safip/app/Exceptions/Handler.php(35): Illuminate\Foundation\Exceptions\Handler->report(Object(Symfony\Component\Debug\Exception\FatalThrowableError))
+#3 /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(81): App\Exceptions\Handler->report(Object(Symfony\Component\Debug\Exception\FatalThrowableError))
+#4 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->handleException(Object(Symfony\Component\Debug\Exception\FatalThrowable in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/helpers.php on line 393
+[26-Apr-2018 14:37:24 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Support\Collection' not found in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/helpers.php:393
+Stack trace:
+#0 /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(95): collect(Array)
+#1 /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(61): Illuminate\Foundation\Exceptions\Handler->shouldntReport(Object(Symfony\Component\Debug\Exception\FatalErrorException))
+#2 /home/qantutra/safip/app/Exceptions/Handler.php(35): Illuminate\Foundation\Exceptions\Handler->report(Object(Symfony\Component\Debug\Exception\FatalErrorException))
+#3 /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(81): App\Exceptions\Handler->report(Object(Symfony\Component\Debug\Exception\FatalErrorException))
+#4 /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(123): Illuminate\Foundation\Bootstrap\H in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/helpers.php on line 393
+[26-Apr-2018 14:37:27 UTC] PHP Warning:  Unterminated comment starting line 1374 in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1374
+[26-Apr-2018 14:37:27 UTC] PHP Warning:  Unterminated comment starting line 1374 in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1374
+[26-Apr-2018 14:37:27 UTC] PHP Warning:  Unterminated comment starting line 1374 in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1374
+[26-Apr-2018 14:37:27 UTC] PHP Parse error:  syntax error, unexpected end of file, expecting function (T_FUNCTION) in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1375
+[26-Apr-2018 14:37:27 UTC] PHP Fatal error:  Exception thrown without a stack frame in Unknown on line 0
+[26-Apr-2018 14:37:27 UTC] PHP Warning:  Unterminated comment starting line 1374 in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1374
+[26-Apr-2018 14:37:27 UTC] PHP Parse error:  syntax error, unexpected end of file, expecting function (T_FUNCTION) in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1375
+[26-Apr-2018 14:37:27 UTC] PHP Fatal error:  Exception thrown without a stack frame in Unknown on line 0
+[26-Apr-2018 14:37:28 UTC] PHP Warning:  Unterminated comment starting line 1374 in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1374
+[26-Apr-2018 14:37:28 UTC] PHP Warning:  Unterminated comment starting line 1374 in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1374
+[26-Apr-2018 14:37:28 UTC] PHP Warning:  Unterminated comment starting line 1374 in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1374
+[26-Apr-2018 14:37:28 UTC] PHP Parse error:  syntax error, unexpected end of file, expecting function (T_FUNCTION) in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1375
+[26-Apr-2018 14:37:28 UTC] PHP Fatal error:  Exception thrown without a stack frame in Unknown on line 0
+[26-Apr-2018 14:37:28 UTC] PHP Warning:  Unterminated comment starting line 1374 in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1374
+[26-Apr-2018 14:37:28 UTC] PHP Parse error:  syntax error, unexpected end of file, expecting function (T_FUNCTION) in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1375
+[26-Apr-2018 14:37:28 UTC] PHP Fatal error:  Exception thrown without a stack frame in Unknown on line 0
+[26-Apr-2018 14:37:29 UTC] PHP Warning:  Unterminated comment starting line 1374 in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1374
+[26-Apr-2018 14:37:29 UTC] PHP Warning:  Unterminated comment starting line 1374 in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1374
+[26-Apr-2018 14:37:29 UTC] PHP Warning:  Unterminated comment starting line 1374 in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1374
+[26-Apr-2018 14:37:29 UTC] PHP Parse error:  syntax error, unexpected end of file, expecting function (T_FUNCTION) in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1375
+[26-Apr-2018 14:37:29 UTC] PHP Fatal error:  Exception thrown without a stack frame in Unknown on line 0
+[26-Apr-2018 14:37:29 UTC] PHP Warning:  Unterminated comment starting line 1374 in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1374
+[26-Apr-2018 14:37:29 UTC] PHP Parse error:  syntax error, unexpected end of file, expecting function (T_FUNCTION) in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1375
+[26-Apr-2018 14:37:29 UTC] PHP Fatal error:  Exception thrown without a stack frame in Unknown on line 0
+[26-Apr-2018 14:37:29 UTC] PHP Warning:  Unterminated comment starting line 1374 in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1374
+[26-Apr-2018 14:37:29 UTC] PHP Warning:  Unterminated comment starting line 1374 in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1374
+[26-Apr-2018 14:37:29 UTC] PHP Warning:  Unterminated comment starting line 1374 in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1374
+[26-Apr-2018 14:37:29 UTC] PHP Parse error:  syntax error, unexpected end of file, expecting function (T_FUNCTION) in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1375
+[26-Apr-2018 14:37:29 UTC] PHP Fatal error:  Exception thrown without a stack frame in Unknown on line 0
+[26-Apr-2018 14:37:29 UTC] PHP Warning:  Unterminated comment starting line 1374 in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1374
+[26-Apr-2018 14:37:29 UTC] PHP Parse error:  syntax error, unexpected end of file, expecting function (T_FUNCTION) in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1375
+[26-Apr-2018 14:37:29 UTC] PHP Fatal error:  Exception thrown without a stack frame in Unknown on line 0
+[26-Apr-2018 14:37:30 UTC] PHP Warning:  Unterminated comment starting line 1374 in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1374
+[26-Apr-2018 14:37:30 UTC] PHP Warning:  Unterminated comment starting line 1374 in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1374
+[26-Apr-2018 14:37:30 UTC] PHP Warning:  Unterminated comment starting line 1374 in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1374
+[26-Apr-2018 14:37:30 UTC] PHP Parse error:  syntax error, unexpected end of file, expecting function (T_FUNCTION) in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1375
+[26-Apr-2018 14:37:30 UTC] PHP Fatal error:  Exception thrown without a stack frame in Unknown on line 0
+[26-Apr-2018 14:37:30 UTC] PHP Warning:  Unterminated comment starting line 1374 in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1374
+[26-Apr-2018 14:37:30 UTC] PHP Parse error:  syntax error, unexpected end of file, expecting function (T_FUNCTION) in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1375
+[26-Apr-2018 14:37:30 UTC] PHP Fatal error:  Exception thrown without a stack frame in Unknown on line 0
+[26-Apr-2018 14:37:34 UTC] PHP Warning:  Unterminated comment starting line 1374 in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1374
+[26-Apr-2018 14:37:34 UTC] PHP Warning:  Unterminated comment starting line 1374 in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1374
+[26-Apr-2018 14:37:34 UTC] PHP Warning:  Unterminated comment starting line 1374 in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1374
+[26-Apr-2018 14:37:34 UTC] PHP Parse error:  syntax error, unexpected end of file, expecting function (T_FUNCTION) in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1375
+[26-Apr-2018 14:37:34 UTC] PHP Fatal error:  Exception thrown without a stack frame in Unknown on line 0
+[26-Apr-2018 14:37:34 UTC] PHP Warning:  Unterminated comment starting line 1374 in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1374
+[26-Apr-2018 14:37:34 UTC] PHP Parse error:  syntax error, unexpected end of file, expecting function (T_FUNCTION) in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1375
+[26-Apr-2018 14:37:34 UTC] PHP Fatal error:  Exception thrown without a stack frame in Unknown on line 0
+[26-Apr-2018 14:37:35 UTC] PHP Warning:  Unterminated comment starting line 1374 in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1374
+[26-Apr-2018 14:37:35 UTC] PHP Warning:  Unterminated comment starting line 1374 in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1374
+[26-Apr-2018 14:37:35 UTC] PHP Warning:  Unterminated comment starting line 1374 in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1374
+[26-Apr-2018 14:37:35 UTC] PHP Parse error:  syntax error, unexpected end of file, expecting function (T_FUNCTION) in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1375
+[26-Apr-2018 14:37:35 UTC] PHP Fatal error:  Exception thrown without a stack frame in Unknown on line 0
+[26-Apr-2018 14:37:35 UTC] PHP Warning:  Unterminated comment starting line 1374 in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1374
+[26-Apr-2018 14:37:35 UTC] PHP Parse error:  syntax error, unexpected end of file, expecting function (T_FUNCTION) in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1375
+[26-Apr-2018 14:37:35 UTC] PHP Fatal error:  Exception thrown without a stack frame in Unknown on line 0
+[26-Apr-2018 14:37:36 UTC] PHP Warning:  Unterminated comment starting line 1374 in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1374
+[26-Apr-2018 14:37:36 UTC] PHP Warning:  Unterminated comment starting line 1374 in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1374
+[26-Apr-2018 14:37:36 UTC] PHP Warning:  Unterminated comment starting line 1374 in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1374
+[26-Apr-2018 14:37:36 UTC] PHP Parse error:  syntax error, unexpected end of file, expecting function (T_FUNCTION) in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1375
+[26-Apr-2018 14:37:36 UTC] PHP Fatal error:  Exception thrown without a stack frame in Unknown on line 0
+[26-Apr-2018 14:37:36 UTC] PHP Warning:  Unterminated comment starting line 1374 in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1374
+[26-Apr-2018 14:37:36 UTC] PHP Parse error:  syntax error, unexpected end of file, expecting function (T_FUNCTION) in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 1375
+[26-Apr-2018 14:37:36 UTC] PHP Fatal error:  Exception thrown without a stack frame in Unknown on line 0
+[26-Apr-2018 14:37:48 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Support\Collection' not found in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/helpers.php:393
+Stack trace:
+#0 /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(95): collect(Array)
+#1 /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(61): Illuminate\Foundation\Exceptions\Handler->shouldntReport(Object(Symfony\Component\Debug\Exception\FatalThrowableError))
+#2 /home/qantutra/safip/app/Exceptions/Handler.php(35): Illuminate\Foundation\Exceptions\Handler->report(Object(Symfony\Component\Debug\Exception\FatalThrowableError))
+#3 /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(81): App\Exceptions\Handler->report(Object(Symfony\Component\Debug\Exception\FatalThrowableError))
+#4 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->handleException(Object(Symfony\Component\Debug\Exception\FatalThrowable in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/helpers.php on line 393
+[26-Apr-2018 14:37:48 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Support\Collection' not found in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/helpers.php:393
+Stack trace:
+#0 /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(95): collect(Array)
+#1 /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php(61): Illuminate\Foundation\Exceptions\Handler->shouldntReport(Object(Symfony\Component\Debug\Exception\FatalErrorException))
+#2 /home/qantutra/safip/app/Exceptions/Handler.php(35): Illuminate\Foundation\Exceptions\Handler->report(Object(Symfony\Component\Debug\Exception\FatalErrorException))
+#3 /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(81): App\Exceptions\Handler->report(Object(Symfony\Component\Debug\Exception\FatalErrorException))
+#4 /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(123): Illuminate\Foundation\Bootstrap\H in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Support/helpers.php on line 393
+[26-Apr-2018 14:59:34 UTC] PHP Fatal error:  Trait 'Illuminate\Auth\Passwords\CanResetPassword' not found in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Foundation/Auth/User.php on line 18
+[26-Apr-2018 15:00:26 UTC] PHP Fatal error:  Interface 'Illuminate\Contracts\Hashing\Hasher' not found in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Hashing/BcryptHasher.php on line 8
+[26-Apr-2018 15:01:46 UTC] PHP Fatal error:  Class 'Illuminate\Foundation\Http\Kernel' not found in /home/qantutra/safip/app/Http/Kernel.php on line 7
+[26-Apr-2018 15:01:55 UTC] PHP Fatal error:  Trait 'Illuminate\Foundation\Validation\ValidatesRequests' not found in /home/qantutra/safip/app/Http/Controllers/Controller.php on line 12
+[19-May-2018 18:33:46 UTC] PHP Warning:  Unknown: Input variables exceeded 5000. To increase the limit change max_input_vars in php.ini. in Unknown on line 0
+[28-May-2018 23:15:43 UTC] PHP Fatal error:  Out of memory (allocated 18874368) (tried to allocate 528384 bytes) in /home/qantutra/safip/vendor/laravel/framework/src/Illuminate/Database/Connection.php on line 325

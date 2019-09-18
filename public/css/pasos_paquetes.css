@@ -1,0 +1,17 @@
+.box-lista-hoteles {
+    max-height: 60vh;
+}
+
+.bg-head-tabla {
+    background-color: #dd4b39;
+    color: white;
+}
+.border-botonm-itinerario{
+    border-bottom: solid 2px #dd4b39;
+}
+.select-editado{
+    width: 80%;
+}
+.margin-inferior{
+    margin-bottom: 15px;
+}
