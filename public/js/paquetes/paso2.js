@@ -264,14 +264,16 @@ const paso2 = new Vue({
 			let url = this.route+'/Paso/2/load/destinos';
 			let id = '';
 			axios.post(url,{destinos:mis_destinos, paquete:this.paquete.id}).then(response=>{
-				//console.log('se cargaron destinos');
+				console.log('se cargaron destinos');
 				$("#destino").select2("destroy");
 				let options = [];
 
 				this.destinos = response.data;
+				console.log("console destinos "+this.destinos);
 				options.push('<')
 				this.destinos.forEach(destino=>{
 					options.push({text: destino.nombre, id: destino.id});
+					console.log(options);
 				}); 
 
 				$("#destino").select2().on('select2:select', () => {

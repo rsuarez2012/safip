@@ -498,6 +498,7 @@ Route::group(['middleware'=>['authen','roles'],'roles'=>['1']],function(){
     // PAQUETES
     Route::get('/tablero/e-shop/usuarios/admin/destroy/{id}',['as'=>'manageUser-destroy-A','uses'=>'Eshop\UsersController@destroy']);
     Route::get('/tablero/Paquetes/Admin/Index',['as'=>'manageProduct-A','uses'=>'Pagina\PaginaPaqueteController@index']);
+    Route::get('paquetes/crear', 'Pagina\PaginaPaqueteController@create')->name('paquete.create');
     Route::get('/tablero/Paquetes/Admin/Continuar/{paquete}/{statusCreado}', function($paquete, $statusCreado) {
         if($statusCreado === '2'):
             return redirect()->route('managePaquete-paso-2-A', $paquete);
