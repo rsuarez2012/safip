@@ -1,8 +1,6 @@
 
     <div class="col-sm-6">
         <div class="form-group">
-                {{$paquete->zona}}
-
             <label>Codigo Paquete</label>
             {{--<input :disabled="package.validated" class="form-control" v-model="package.code" type="text" placeholder="Codigo" id="codigo">--}}
             <input class="form-control" type="text" placeholder="Codigo" id="codigo" name="code" value="{{ old('code', $paquete->codigo)}}">
@@ -16,9 +14,7 @@
             <label>Categoria Paquete</label>
             <select name="category" id="category" class="form-control">
                 @foreach($categorias as $categoria)
-                <option value="{{$categoria->id}}"
-                  {{ old('category') == $categoria->id ? 'selected' : '' }}
-                  >{{$categoria->nombre}}</option>    
+                <option value="{{$categoria->id}}" {{ $categoria->id == $paquete->categoria_id ? "selected" : "" }}>{{$categoria->nombre}}</option>    
                 @endforeach
             </select>
             {{--<select cname="miselect[]" data-placeholder="Choose a Country..." class="chosen-select form-control" tabindex="2" multiple>
@@ -36,9 +32,9 @@
         <div class="form-group">
             <label>Zona</label>
             <select class="form-control" name="zone" id="zona">
-                <option value="costa" {{ old('zone') == $paquete->zona ? 'selected' : '' }}>Costa</option>
-                <option value="sierra" {{ old('zone') == $paquete->zona ? 'selected' : '' }}>Sierra</option>
-                <option value="selva" {{ old('zone') == $paquete->zona ? 'selected' : '' }}>Selva</option>    
+                <option value="costa" {{ $paquete->zona == 'costa' ? 'selected' : '' }}>Costa</option>
+                <option value="sierra" {{ $paquete->zona == 'sierra' ? 'selected' : '' }}>Sierra</option>
+                <option value="selva" {{ $paquete->zona == 'selva' ? 'selected' : '' }}>Selva</option>    
             </select>
         </div>
     

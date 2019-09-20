@@ -409,7 +409,56 @@ class PaginaPaqueteController extends Controller
 
     public function create(PaginaPaquete $paquete)
     {
+        $paquete = new PaginaPaquete();
         $categorias = PaginaCategoriaPaquete::all();
         return view('adminweb.paquetes.nuevo.create', compact('categorias', 'paquete')); 
+    }
+    public function store(Request $data)
+    {
+        //dd($data->all());
+		//var_dump($data->all());
+		$paquete=new PaginaPaquete();
+
+		$paquete->codigo=strtoupper($data->code);
+		$paquete->nombre=$data->name;
+		$paquete->descripcion='nada';
+		//$paquete->descripcion=$data->description;
+		//$paquete->extracto=$data->extrac;
+		$paquete->extracto='nada';
+		$paquete->zona = $data->zone;
+		$paquete->imagen=$this->cargarImagenes($data);
+		//$paquete->imagen = 'o.png';
+		if ($data->category == 6){
+			$paquete->statusCreado = 'terminado';
+		}
+		if ($data->category == 7) {
+			foreach ($data->departures as $salida) {
+				$newSalida = new SalidaConfirmada();
+				$newSalida->cupos =$salida['quotas'];
+				$newSalida->fecha_salida=$salida['departure'];
+				$newSalida->paquete_id=$paquete->id;
+				$newSalida->save();
+				
+
+				$point = new PuntoEncuentro();
+				$point->nombre =  $salida['point_name'];
+				$point->latitud = $salida['lat'];
+				$point->longitud = $salida['lng'];
+				$point->salida_id =  $newSalida->id;
+				$point->save();
+			}
+		}else{
+			$paquete->categoria_id=$data->category;
+		}
+		$paquete->save();
+		//return $paquete->id;
+		$pack = $paquete->id;
+		 $categorias = PaginaCategoriaPaquete::all();
+		return redirect()->route('paquete.editar');
+    }
+    public function edit(PaginaPaquete $paquete)
+    {
+        //dd($paquete);
+        return view('adminweb.paquetes.nuevo.create', compact('paquete'));
     }
 }

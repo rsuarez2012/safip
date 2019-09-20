@@ -500,6 +500,9 @@ Route::group(['middleware'=>['authen','roles'],'roles'=>['1']],function(){
     Route::get('/tablero/Paquetes/Admin/Index',['as'=>'manageProduct-A','uses'=>'Pagina\PaginaPaqueteController@index']);
     ///////////////////////////////////////////////////////////////
     Route::get('paquetes/crear', 'Pagina\PaginaPaqueteController@create')->name('paquete.create');
+    Route::post('paquetes/guardar', 'Pagina\PaginaPaquetePaso1Controller@store')->name('paquete.guardar');
+    Route::get('paquete/editar/{paquete}', 'Pagina\PaginaPaquetePaso1Controller@edit')->name('paquete.editar');
+    Route::post('paquete/actualizar', 'Pagina\PaginaPaquetePaso1Controller@update')->name('paquete.actualizar');
     ////////////////////////////////////////////////////////////////
     Route::get('/tablero/Paquetes/Admin/Continuar/{paquete}/{statusCreado}', function($paquete, $statusCreado) {
         if($statusCreado === '2'):
