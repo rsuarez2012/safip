@@ -1,20 +1,24 @@
-<form action="">
+
     <div class="col-sm-6">
         <div class="form-group">
+                {{$paquete->zona}}
+
             <label>Codigo Paquete</label>
             {{--<input :disabled="package.validated" class="form-control" v-model="package.code" type="text" placeholder="Codigo" id="codigo">--}}
-            <input class="form-control" type="text" placeholder="Codigo" id="codigo">
+            <input class="form-control" type="text" placeholder="Codigo" id="codigo" name="code" value="{{ old('code', $paquete->codigo)}}">
         </div>
         <div class="form-group">
             <label>Nombre Paquete</label>
-            <input class="form-control" type="text" placeholder="Nombre" id="nombre">
+            <input class="form-control" type="text" placeholder="Nombre" id="nombre" name="name" value="{{ old('name', $paquete->nombre) }}">
         </div>
 
         <div class="form-group">        
             <label>Categoria Paquete</label>
             <select name="category" id="category" class="form-control">
                 @foreach($categorias as $categoria)
-                <option value="{{$categoria->id}}">{{$categoria->nombre}}</option>    
+                <option value="{{$categoria->id}}"
+                  {{ old('category') == $categoria->id ? 'selected' : '' }}
+                  >{{$categoria->nombre}}</option>    
                 @endforeach
             </select>
             {{--<select cname="miselect[]" data-placeholder="Choose a Country..." class="chosen-select form-control" tabindex="2" multiple>
@@ -31,10 +35,10 @@
         </div>
         <div class="form-group">
             <label>Zona</label>
-            <select class="form-control" v-model="package.zone" id="zona">
-                <option value="costa" :selected="package.zone == 'costa'">Costa</option>
-                <option value="sierra" :selected="package.zone == 'sierra'">Sierra</option>
-                <option value="selva" :selected="package.zone == 'selva'">Selva</option>    
+            <select class="form-control" name="zone" id="zona">
+                <option value="costa" {{ old('zone') == $paquete->zona ? 'selected' : '' }}>Costa</option>
+                <option value="sierra" {{ old('zone') == $paquete->zona ? 'selected' : '' }}>Sierra</option>
+                <option value="selva" {{ old('zone') == $paquete->zona ? 'selected' : '' }}>Selva</option>    
             </select>
         </div>
     
@@ -57,10 +61,10 @@
                 <div id="preview">
                 
                 </div>
-                    {{--<img  :src="route+'/storage/original/'+package.image" alt="Este dia no tiene una imagen">
-                    <img src="{{asset('storage/original/'.$paquete->imagen)}}" alt="" width="100">--}}
-                    <img :src="route+'/storage/original/'+package.image" class="img-responsive" width="200px" height="200px" v-if="package.edit">
-                    {{--<img :src="'/web/images/paquetes/'+package.image" class="img-responsive" width="720px" height="80px" v-if="package.edit">--}}
+                    {{--<img  :src="route+'/storage/original/'+package.image" alt="Este dia no tiene una imagen">--}}
+                    <img src="{{asset('storage/original/'.$paquete->imagen)}}" alt="" width="450" height="200">
+                    {{--<img :src="route+'/storage/original/'+package.image" class="img-responsive" width="200px" height="200px" v-if="package.edit">
+                    <img :src="'/web/images/paquetes/'+package.image" class="img-responsive" width="720px" height="80px" v-if="package.edit">--}}
                 </center>
         </div>
                 
@@ -77,9 +81,8 @@
     </div>
     <div class="clearfix"></div>
 
-    <button class="btn btn-danger pull-right" type="submit">Guardar</button>
+    
 
-</form>
 @section('script')
 <script type="text/javascript">
    $(document).ready(function(){
