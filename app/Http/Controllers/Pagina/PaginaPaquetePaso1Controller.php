@@ -49,18 +49,23 @@ class PaginaPaquetePaso1Controller extends Controller
 		$paquete_id = $paquete;
 		$dat = $paquete->id;
 
-		return view('adminweb.paquetes.pasos.paso1', 
+		return view('adminweb.paquetes.nuevo.create', 
 			   compact('categorias', 'id', 'codigo', 'nombre', 'estado', 'descripcion', 'extracto', 'categoria_id', 'cupos', 'fecha_salida', 'fecha_llegada','datos', 'paquete_id', 'llevar', 'politicas', 'fechas', 'noincluidos', 'tarifas', 'responsabilidades', 'importantes', 'dat'));
+		/*return view('adminweb.paquetes.pasos.paso1', 
+			   compact('categorias', 'id', 'codigo', 'nombre', 'estado', 'descripcion', 'extracto', 'categoria_id', 'cupos', 'fecha_salida', 'fecha_llegada','datos', 'paquete_id', 'llevar', 'politicas', 'fechas', 'noincluidos', 'tarifas', 'responsabilidades', 'importantes', 'dat'));*/
 	}
 	public function store(Request $data)
 	{
+		//dd($data->all());
 		//var_dump($data->all());
 		$paquete=new PaginaPaquete();
 
 		$paquete->codigo=strtoupper($data->code);
 		$paquete->nombre=$data->name;
-		$paquete->descripcion=$data->description;
-		$paquete->extracto=$data->extrac;
+		$paquete->descripcion='nada';
+		//$paquete->descripcion=$data->description;
+		//$paquete->extracto=$data->extrac;
+		$paquete->extracto='nada';
 		$paquete->zona = $data->zone;
 		$paquete->imagen=$this->cargarImagenes($data);
 		//$paquete->imagen = 'o.png';
@@ -87,7 +92,10 @@ class PaginaPaquetePaso1Controller extends Controller
 			$paquete->categoria_id=$data->category;
 		}
 		$paquete->save();
-		return $paquete->id;
+		//return $paquete->id;
+		$pack = $paquete->id;
+		 $categorias = PaginaCategoriaPaquete::all();
+		return redirect()->route('paquete.edit.paso1', $paquete);
 	}
 	public function verCodigo($code)
 	{
@@ -148,8 +156,9 @@ class PaginaPaquetePaso1Controller extends Controller
 		//dd($paquete);
 		$paquete_id = $paquete;
 		$dat = $paquete->id;
-
-		return view('adminweb.paquetes.pasos.paso1', compact('datos', 'paquete_id', 'llevar', 'politicas', 'fechas', 'noincluidos', 'tarifas', 'responsabilidades', 'importantes', 'dat'));
+		$categorias = PaginaCategoriaPaquete::all();
+		/*return view('adminweb.paquetes.pasos.paso1', compact('datos', 'paquete_id', 'llevar', 'politicas', 'fechas', 'noincluidos', 'tarifas', 'responsabilidades', 'importantes', 'dat'));*/
+		return view('adminweb.paquetes.nuevo.edit', compact('datos', 'paquete_id', 'llevar', 'politicas', 'fechas', 'noincluidos', 'tarifas', 'responsabilidades', 'importantes', 'dat', 'categorias', 'paquete'));
 
 	}
 	public function update(Request $request, PaginaPaquete $paquete)

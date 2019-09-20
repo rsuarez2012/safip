@@ -407,9 +407,9 @@ class PaginaPaqueteController extends Controller
         }
     } 
 
-    public function create()
+    public function create(PaginaPaquete $paquete)
     {
         $categorias = PaginaCategoriaPaquete::all();
-        return view('adminweb.paquetes.nuevo.create', compact('categorias')); 
+        return view('adminweb.paquetes.nuevo.create', compact('categorias', 'paquete')); 
     }
 }
