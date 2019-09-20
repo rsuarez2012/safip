@@ -406,4 +406,10 @@ class PaginaPaqueteController extends Controller
             dd("funciono");
         }
     } 
+
+    public function create()
+    {
+        $categorias = PaginaCategoriaPaquete::all();
+        return view('adminweb.paquetes.nuevo.create', compact('categorias')); 
+    }
 }
