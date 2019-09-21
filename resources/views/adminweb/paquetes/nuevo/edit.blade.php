@@ -38,8 +38,9 @@
                     <div class="tab-content">
                         <!--datos del paquete-->
                         <div class="tab-pane active" id="tab_1">
-                            <form action="/tablero/Paquete/Admin/Paso/1/Store" method="POST" accept-charset="UTF-8" enctype="multipart/form-data">
+                            <form action="{{ route('paquete.actualizar', $paquete->id) }}" method="POST" accept-charset="UTF-8" enctype="multipart/form-data">
                                 {{ csrf_field() }}
+                                <input type="hidden" value="{{ $paquete->id }}" name="id">
                                 @include('adminweb.paquetes.nuevo.partials.datos')
                                 <button class="btn btn-danger pull-right" type="submit">Guardar</button>
                             </form>

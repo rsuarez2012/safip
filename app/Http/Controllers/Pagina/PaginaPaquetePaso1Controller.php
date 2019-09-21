@@ -92,10 +92,13 @@ class PaginaPaquetePaso1Controller extends Controller
 			$paquete->categoria_id=$data->category;
 		}
 		$paquete->save();
+		//dd($paquete->id);
 		//return $paquete->id;
 		$pack = $paquete->id;
 		 $categorias = PaginaCategoriaPaquete::all();
-		return redirect()->route('paquete.edit.paso1', $paquete);
+		//return redirect()->route('paquete.edit.paso1', $pack);
+		return redirect()->route('paquete.editar', $paquete);
+		//return redirect()->back();
 	}
 	public function verCodigo($code)
 	{
@@ -155,17 +158,20 @@ class PaginaPaquetePaso1Controller extends Controller
 		$importantes = PaginaDatoPaquete::where('paquete_id', $paquete->id)->where('tipo', 'importante')->get();
 		//dd($paquete);
 		$paquete_id = $paquete;
+		$paquete;
 		$dat = $paquete->id;
 		$categorias = PaginaCategoriaPaquete::all();
 		/*return view('adminweb.paquetes.pasos.paso1', compact('datos', 'paquete_id', 'llevar', 'politicas', 'fechas', 'noincluidos', 'tarifas', 'responsabilidades', 'importantes', 'dat'));*/
 		return view('adminweb.paquetes.nuevo.edit', compact('datos', 'paquete_id', 'llevar', 'politicas', 'fechas', 'noincluidos', 'tarifas', 'responsabilidades', 'importantes', 'dat', 'categorias', 'paquete'));
+		//return view('adminweb.paquetes.nuevo.create', compact('paquete'));
 
 	}
 	public function update(Request $request, PaginaPaquete $paquete)
 	{
+		//dd($request->all());
 		$paquete->nombre       = $request->name;
-		$paquete->descripcion  = $request->description;
-		$paquete->extracto     = $request->extrac;
+		$paquete->descripcion  = 'nada';//$request->description;
+		$paquete->extracto     = 'nada';//$request->extrac;
 		$paquete->categoria_id = $request->category;
 		$paquete->zona         = $request->zone;
 		//dd($paquete->salida);
@@ -178,7 +184,8 @@ class PaginaPaquetePaso1Controller extends Controller
 		}
 		$paquete->update();
 
-		return /*redirect()->route('manageProduct-A')->with('info', 'Paquete editado correctamente!.')*/;
+		//return /*redirect()->route('manageProduct-A')->with('info', 'Paquete editado correctamente!.')*/;
+		return redirect()->back();
 	}
 	public function cargarImagenes($data){
 		$carpetas = [["original",null],["miniature",150],["medium",300],["big",700]];
