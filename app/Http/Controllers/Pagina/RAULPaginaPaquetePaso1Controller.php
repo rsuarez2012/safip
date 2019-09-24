@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Pagina;
 use Illuminate\Http\Request;
 use App\Pagina\PaginaDestino;
 use App\Pagina\PaginaPaquete;
-use App\Pagina\PaginaListado;
 use App\Pagina\PuntoEncuentro;
 use App\Pagina\SalidaConfirmada;
 use App\Http\Controllers\Controller;
@@ -96,7 +95,7 @@ class PaginaPaquetePaso1Controller extends Controller
 		//dd($paquete->id);
 		//return $paquete->id;
 		$pack = $paquete->id;
-		//dd($pack); 
+		//dd($pack);
 		 $categorias = PaginaCategoriaPaquete::all();
 		//return redirect()->route('paquete.edit.paso1', $pack);
 		return redirect()->route('paquete.editar', $pack);
@@ -157,27 +156,30 @@ class PaginaPaquetePaso1Controller extends Controller
 		$noincluidos = PaginaDatoPaquete::where('paquete_id', $paquete->id)->where('tipo', 'noincluido')->get();
 		$tarifas = PaginaDatoPaquete::where('paquete_id', $paquete->id)->where('tipo', 'politicatarifa')->get();
 		$responsabilidades = PaginaDatoPaquete::where('paquete_id', $paquete->id)->where('tipo', 'responsabilidades')->get();
-		$importantes = PaginaDatoPaquete::where('paquete_id', $paquete->id)->where('tipo', 'importante')->get();;
+		$importantes = PaginaDatoPaquete::where('paquete_id', $paquete->id)->where('tipo', 'importante')->get();
+		//dd($paquete);
 		$paquete_id = $paquete;
-
+		//dd($paquete_id);
+		//$paquete;
 		$dat = $paquete->id;
 		$categorias = PaginaCategoriaPaquete::all();
 		$destinos = PaginaDestino::get();
 		/*return view('adminweb.paquetes.pasos.paso1', compact('datos', 'paquete_id', 'llevar', 'politicas', 'fechas', 'noincluidos', 'tarifas', 'responsabilidades', 'importantes', 'dat'));*/
 		return view('adminweb.paquetes.nuevo.edit', compact('datos', 'paquete_id', 'llevar', 'politicas', 'fechas', 'noincluidos', 'tarifas', 'responsabilidades', 'importantes', 'dat', 'categorias', 'paquete', 'destinos'));
-	
+		//return view('adminweb.paquetes.nuevo.create', compact('paquete'));
+
 	}
 	public function update(Request $request, PaginaPaquete $paquete)
 	{
-		
+		//dd($request->id);
 		$paquete = PaginaPaquete::find($request->id);
-		
+		//dd($paquete);
 		$paquete->nombre       = $request->name;
 		$paquete->descripcion  = 'nada';//$request->description;
 		$paquete->extracto     = 'nada';//$request->extrac;
 		$paquete->categoria_id = $request->category;
 		$paquete->zona         = $request->zone;
-		
+		//dd($paquete->salida);
 		if(count($request->file()) > 0){
 			Storage::disk('public')->delete('big/'.$paquete->imagen);
 			Storage::disk('public')->delete('medium/'.$paquete->imagen);

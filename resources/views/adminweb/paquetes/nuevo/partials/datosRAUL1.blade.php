@@ -1,41 +1,42 @@
-<div class="col-sm-6">
-    <div class="form-group">
-        <label>Codigo Paquete</label>
-        {{--<input :disabled="package.validated" class="form-control" v-model="package.code" type="text" placeholder="Codigo" id="codigo">--}}
-        <input class="form-control" type="text" autocomplete="off" placeholder="Codigo" id="codigo" name="code" value="{{ old('code', $paquete->codigo)}}">
-    </div>
-    <div class="form-group">
-        <label>Nombre Paquete</label>
-        <input class="form-control" type="text" autocomplete="off" placeholder="Nombre" id="nombre" name="name" value="{{ old('name', $paquete->nombre) }}">
-    </div>
+  
+    <div class="col-sm-6">
+        <div class="form-group">
+            <label>Codigo Paquete</label>
+            {{--<input :disabled="package.validated" class="form-control" v-model="package.code" type="text" placeholder="Codigo" id="codigo">--}}
+            <input class="form-control" type="text" autocomplete="off" placeholder="Codigo" id="codigo" name="code" value="{{ old('code', $paquete->codigo)}}">
+        </div>
+        <div class="form-group">
+            <label>Nombre Paquete</label>
+            <input class="form-control" type="text" autocomplete="off" placeholder="Nombre" id="nombre" name="name" value="{{ old('name', $paquete->nombre) }}">
+        </div>
 
-    <div class="form-group">        
-        <label>Categoria Paquete</label>
-        <select name="category" id="category" class="form-control">
-            @foreach($categorias as $categoria)
-            <option value="{{$categoria->id}}" {{ $categoria->id == $paquete->categoria_id ? "selected" : "" }}>{{$categoria->nombre}}</option>    
-            @endforeach
-        </select>
-    </div>
-    <div class="form-group">
-        <label>Zona</label>
-        <select class="form-control" name="zone" id="zona">
-            <option value="costa" {{ $paquete->zona == 'costa' ? 'selected' : '' }}>Costa</option>
-            <option value="sierra" {{ $paquete->zona == 'sierra' ? 'selected' : '' }}>Sierra</option>
-            <option value="selva" {{ $paquete->zona == 'selva' ? 'selected' : '' }}>Selva</option>    
-        </select>
-    </div>
+        <div class="form-group">        
+            <label>Categoria Paquete</label>
+            <select name="category" id="category" class="form-control">
+                @foreach($categorias as $categoria)
+                <option value="{{$categoria->id}}" {{ $categoria->id == $paquete->categoria_id ? "selected" : "" }}>{{$categoria->nombre}}</option>    
+                @endforeach
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Zona</label>
+            <select class="form-control" name="zone" id="zona">
+                <option value="costa" {{ $paquete->zona == 'costa' ? 'selected' : '' }}>Costa</option>
+                <option value="sierra" {{ $paquete->zona == 'sierra' ? 'selected' : '' }}>Sierra</option>
+                <option value="selva" {{ $paquete->zona == 'selva' ? 'selected' : '' }}>Selva</option>    
+            </select>
+        </div>
+    
+        <div class="form-group">
+            <label>Imagen Paquete</label>
+            <input class="form-control" @change="processFile($event)" type="file" accept="image/*" id="file" name="img">
+            <span class="help-block">Las medidas del banner deben ser 700px por 263px</span>
+        </div>
 
-    <div class="form-group">
-        <label>Imagen Paquete</label>
-        <input class="form-control" @change="processFile($event)" type="file" accept="image/*" id="file" name="img">
-        <span class="help-block">Las medidas del banner deben ser 700px por 263px</span>
+        <div class="clearfix"></div>
+
+        <br>
     </div>
-
-    <div class="clearfix"></div>
-
-    <br>
-</div>
     <div class="col-sm-6">
         <div class="form-group">
         
@@ -46,11 +47,7 @@
                 
                 </div>
                     {{--<img  :src="route+'/storage/original/'+package.image" alt="Este dia no tiene una imagen">--}}
-                    @if(is_null($paquete->imagen))
-
-                    @else
-                      <img src="{{asset('storage/original/'.$paquete->imagen)}}" alt="" width="450" height="200">
-                    @endif
+                    <img src="{{asset('storage/original/'.$paquete->imagen)}}" alt="" width="450" height="200">
                     {{--<img :src="route+'/storage/original/'+package.image" class="img-responsive" width="200px" height="200px" v-if="package.edit">
                     <img :src="'/web/images/paquetes/'+package.image" class="img-responsive" width="720px" height="80px" v-if="package.edit">--}}
                 </center>
@@ -71,15 +68,14 @@
 
     
 
-{{--@section('script')--}}
-<!--<script type="text/javascript">
+@section('script')
+<script type="text/javascript">
   var protocol = $(location).attr('protocol');
   var url = $(location).attr('host');
   var full_url = protocol + '//' + url;
 
   var destinos = [];  
   var destino_id;
-  var hotel; //agregado
   var url; 
   var i = 0;
    $(document).ready(function(){
@@ -89,17 +85,17 @@
       }
     });
 
-    var paquete = '{{  $paquete->id }}';
-    $('#destinos-table').DataTable();
+    $("#destinos-table").DataTable();
 
     var enlazado_id = null;
     $('.eliminarDestino').on('click', function(){
-      var $button = $(this);
-      enlazado_id = $(this).data('destino');
-      var table = $('#destinos-table').DataTable(); 
+
+      enlazado_id = $(this).data('enlazado');
+      var id = $(this).attr('data-enlazado');
+      console.log(id);
       swal({
         title: "Atención!.",
-        text: "¿Está seguro de que desea eliminar este destino?'",
+        text: "¿Está seguro de que desea eliminar este hotel?'",
         icon: "warning",
         buttons: {
           cancel: 'No',
@@ -109,17 +105,19 @@
       }).then(isConfirm => {
         if(isConfirm) {
           
-          var url = full_url + '/safip/public/Paso/2/Paquete/DestroyDestino';
+          //var url = full_url + '/safip/public/Paso/2/Paquete/DestroyEnlace';
+          var url = full_url + '/Paso/2/Paquete/DestroyEnlace';
           
           $.ajax({
             url: url,
             type: 'POST',
-            data: { destino: enlazado_id },
-            dataType: 'json'
+            data: { enlazado_id: enlazado_id },
           })
           .done(function(response){ //                        
-              toastr.success('Destino eliminado con exito!');              
-              table.row( $button.parents('tr') ).remove().draw();
+              $('tr#hotel_id'+id).remove();
+              toastr.success('Hotel eliminado con exito!');
+              var table = $('#destinos-table').DataTable().draw();
+          
           });
         }
       })
@@ -154,12 +152,12 @@
           }
         });
       }, 
-      afterSelect: function(hotel){        
-          destinos.push({ paquete_id: $('#paquete_id').val(), destino_id: hotel[0], noches: $('#noches').val() });
+      afterSelect: function(value){
+          destinos.push({ paquete_id: $('#paquete_id').val(), destino_id: value[0], noches: $('#noches').val() });
           $('#noches').val('0');
       },
-      afterDeselect: function(hotel){
-          destinos.splice(destinos.findIndex(item => item.destino_id === hotel[0]), 1)
+      afterDeselect: function(value){
+          destinos.splice(destinos.findIndex(item => item.destino_id === value[0]), 1)
       },
     });
 
@@ -190,29 +188,21 @@
               }
             });
           },
-          afterSelect: function(hoteles){
+          afterSelect: function(value){
             /*validacion cantidad de noches*/
             if($('#noches').val()<1) {
               toastr.warning('Días de hospedaje debe ser mayor a cero!');
-              for(i=0;i<hoteles.length;i++) {
-                $('#destinos-hoteles').multiSelect('deselect', [hoteles[i]]); //deselecciona ultima opcion
-
-              }
+              $('#destinos-hoteles').multiSelect('deselect', [value[0]]); //deselecciona ultima opcion
             }
             else {
-              for(i=0;i<hoteles.length;i++) {
-                hotel = hoteles[i].split("_");
-                destinos.push({ paquete_id: $('#paquete_id').val(), destino_id: hotel[0], hotel_id: hotel[1], noches: $('#noches').val(), value: hotel });              
-              }
+              var values = value[0].split("_");
+              destinos.push({ paquete_id: $('#paquete_id').val(), destino_id: values[0], hotel_id: values[1], noches: $('#noches').val(), value: value });
               $('#noches').val('0');
             }
             
           },
-          afterDeselect: function(hoteles){
-            for(i=0;i<hoteles.length;i++) {
-              hotel = hoteles[i].split("_");
-              destinos.splice(destinos.findIndex(item => item.hotel_id === hotel[0]), 1)
-            }          
+          afterDeselect: function(value){
+            destinos.splice(destinos.findIndex(item => item.value === value[0]), 1)
           }
 
       });
@@ -269,7 +259,6 @@
       $.ajax({
           //url: full_url + '/safip/public/Paso/2/Enlazar/Hoteles/Paquete/'+destinos[0]['paquete_id'],
           url: full_url + '/Paso/2/Enlazar/Hoteles/Paquete/'+destinos[0]['paquete_id'],
-          
           type: frm[0].method,
           dataType: 'json',
           data: { destinos: destinos },
@@ -468,7 +457,8 @@
     function validaForm(){
     // Campos de texto
         if($("#codigo").val() == ""){
-            toastr.warning("Debe colocar un codigo");            
+            toastr.warning("Debe colocar un codigo");
+            //alert("El campo Nombre no puede estar vacío.");
             $("#codigo").focus();       // Esta función coloca el foco de escritura del usuario en el campo Nombre directamente.
             return false;
         }
@@ -477,5 +467,5 @@
 
    });
 
-</script>-->
-{{--@endsection--}}
+</script>
+@endsection

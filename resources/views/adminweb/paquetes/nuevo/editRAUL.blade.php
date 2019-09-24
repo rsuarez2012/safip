@@ -1,85 +1,133 @@
-<div class="col-sm-6">
-    <div class="form-group">
-        <label>Codigo Paquete</label>
-        {{--<input :disabled="package.validated" class="form-control" v-model="package.code" type="text" placeholder="Codigo" id="codigo">--}}
-        <input class="form-control" type="text" autocomplete="off" placeholder="Codigo" id="codigo" name="code" value="{{ old('code', $paquete->codigo)}}">
-    </div>
-    <div class="form-group">
-        <label>Nombre Paquete</label>
-        <input class="form-control" type="text" autocomplete="off" placeholder="Nombre" id="nombre" name="name" value="{{ old('name', $paquete->nombre) }}">
-    </div>
+@extends('layouts.master')
+@section('titulo', 'Datos Paquetes')
 
-    <div class="form-group">        
-        <label>Categoria Paquete</label>
-        <select name="category" id="category" class="form-control">
-            @foreach($categorias as $categoria)
-            <option value="{{$categoria->id}}" {{ $categoria->id == $paquete->categoria_id ? "selected" : "" }}>{{$categoria->nombre}}</option>    
-            @endforeach
-        </select>
-    </div>
-    <div class="form-group">
-        <label>Zona</label>
-        <select class="form-control" name="zone" id="zona">
-            <option value="costa" {{ $paquete->zona == 'costa' ? 'selected' : '' }}>Costa</option>
-            <option value="sierra" {{ $paquete->zona == 'sierra' ? 'selected' : '' }}>Sierra</option>
-            <option value="selva" {{ $paquete->zona == 'selva' ? 'selected' : '' }}>Selva</option>    
-        </select>
-    </div>
 
-    <div class="form-group">
-        <label>Imagen Paquete</label>
-        <input class="form-control" @change="processFile($event)" type="file" accept="image/*" id="file" name="img">
-        <span class="help-block">Las medidas del banner deben ser 700px por 263px</span>
-    </div>
+@section('css')
+<link rel="stylesheet" href="{{ asset('css/multiSelectCss/multi-select.css') }}">
+<style>
+    #map-canvas {
+        width: 100%;
+        height: 370px;
+    }
+    body > div.datepicker.datepicker-dropdown.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom > div.datepicker-days > table > tbody > tr > td.disabled{
+        color: #aaa;
+    }
+    body > div.datepicker.datepicker-dropdown.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom > div.datepicker-days > table > tbody > tr > td.active{
+        color:#fff;
+        background-color: #d9534f; 
+    }
+    th{
+      text-align: center;
+    }
+    .ms-container{
+    	width: 100%;
+    }
+</style>
+@endsection
+@section('content') 
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-danger">
+            <div class="box-header">
+            	 <h4><i class="fa fa-cube"></i>  Datos del Paquete  </h4>
+            </div>
+            <div class="box-body">
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs" id="tabs">
+                        <li id="t1" class><a href="#tab_1" data-toggle="tab" aria-expanded="true">Perfil del paquete</a></li>
+                        <li id="t2" class="active"><a href="#tab_2" data-toggle="tab" aria-expanded="false" id="a_tab2">Destinos y Hoteles</a></li>
+                        <li id="t3" class><a href="#tab_3" data-toggle="tab" aria-expanded="false" id="a_tab3">Dias y Actividades</a></li>
+                        <li id="t4" class><a href="#tab_4" data-toggle="tab" aria-expanded="false" id="a_tab4">Precios</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <!--datos del paquete-->
+                        <div class="tab-pane" id="tab_1">
+                            <form action="{{ route('paquete.actualizar', $paquete->id) }}" method="POST" accept-charset="UTF-8" enctype="multipart/form-data">
+                                {{ csrf_field() }}
+                                {{--$paquete_id--}}
+                                <input type="hidden" value="{{ $paquete->id }}" name="id">
+                                @include('adminweb.paquetes.nuevo.partials.datos')
+                                <button class="btn btn-danger pull-right" type="submit">Guardar</button>
+                            </form>
+                        </div>
+                        <!--configuracion del paquete-->
+                        <div class="tab-pane active" id="tab_2">
+                        	<form action="{{ route('agregar.desr', $paquete->id) }}" method="POST" id="destino-form">
+                        		 {{ csrf_field() }}
+                        		<input type="hidden" name="id" value="{{$paquete->id}}" id="paquete_id">
+                        		@include('adminweb.paquetes.nuevo.partials.destinos')
+                        		<!--<div class="row">                        			
+	                        		<div class="col-sm-6">
+	                        			<div class="form-group">
+	                        				<label for="">Desea agregar hotel.?</label>
+	                        				<select class="form-control" id="opcion">
+	                        					<option value="no">NO</option>
+	                        					<option value="si">SI</option>
+	                        				</select>
+	                        			</div>
+	                        		</div>
+	                        		<div class="col-sm-6">
+	                        			<div class="form-group">
+	                        				<label>Dias de Hospedaje</label>
+	                        				<input type="number" name="noches" id="noches" class="form-control" value="0">
+	                        			</div>
+	                        		</div>
+                        		</div>
+                        		<div class="row">
+                        			<div class="col-sm-12">
+                        				<div class="form-group selector">
+	                        				<label>Destinos</label>
+	                        				<select class="form-control" multiple="multiple" id="destino" name="destino">
+	                        					@foreach($destinos as $destino)
+																		  <option value='{{ $destino->id }}'>{{ $destino->nombre }}</option>
+																	  @endforeach
+																	</select>
+	                        			</div>
+	                        			<div class="form-group selector-hoteles" style="display: none;">
+	                        				<label>Destinos</label>
+	                        				
+	                        				<select class="form-control" multiple="multiple" id="destinos-hoteles">
+	                        					@foreach($destinos as $destino)
+	                        					<optgroup label='{{$destino->nombre}}'>
+	                        						@foreach($destino->hoteles as $hotel)
+																		  	<option value='{{ $destino->id }}_{{ $hotel->id }}'>{{ $hotel->nombre.' '.$destino->id }}</option>
+																		  @endforeach	
+																		</optgroup>
+																	  @endforeach
+																	</select>
+	                        			</div>
+                        			</div>
+                        		</div>-->
+                        		<a id="btn-step2" class="btn btn-danger pull-right">Guardar</a>
+                                <a id="btn-step2-hoteles" class="btn btn-danger pull-right" style="display: none">Enlazar</a>
+                        	</form>
+                        </div>
+                        <!--itinerario-->
+                        <div class="tab-pane" id="tab_3">
+                        	@include('adminweb.paquetes.nuevo.partials.dia')					
+                            <a id="btn-step3" class="btn btn-danger pull-right">Guardar</a>
+                        </div>
+                        <!--adicionales--> 
+                        <div class="tab-pane" id="tab_4">
 
-    <div class="clearfix"></div>
+                            <a id="btn-step4" class="btn btn-danger pull-right">Guardar</a>
+                        </div>
 
-    <br>
-</div>
-    <div class="col-sm-6">
-        <div class="form-group">
-        
-                <center>
-                <label>Imagen del paquete</label>
-                
-                <div id="preview">
-                
+                    </div>
                 </div>
-                    {{--<img  :src="route+'/storage/original/'+package.image" alt="Este dia no tiene una imagen">--}}
-                    @if(is_null($paquete->imagen))
-
-                    @else
-                      <img src="{{asset('storage/original/'.$paquete->imagen)}}" alt="" width="450" height="200">
-                    @endif
-                    {{--<img :src="route+'/storage/original/'+package.image" class="img-responsive" width="200px" height="200px" v-if="package.edit">
-                    <img :src="'/web/images/paquetes/'+package.image" class="img-responsive" width="720px" height="80px" v-if="package.edit">--}}
-                </center>
+            </div>  
         </div>
-                
-                <!--<div class="col-sm-6 form-group hidden">
-                    <label>Descripcion Corta</label>
-                    <input class="form-control " v-model="package.extrac" type="text" placeholder="extracto">
-                </div>
-                <div class="col-sm-6 form-group  hidden">
-                    <label>Descripcion Larga</label>
-                    <textarea class="form-control" v-model="package.description" placeholder="description"></textarea>
-                </div>-->
-            
-                        
     </div>
-    <div class="clearfix"></div>
-
-    
-
-{{--@section('script')--}}
-<!--<script type="text/javascript">
+</div> 
+@endsection
+@section('script')
+<script type="text/javascript">
   var protocol = $(location).attr('protocol');
   var url = $(location).attr('host');
   var full_url = protocol + '//' + url;
 
   var destinos = [];  
   var destino_id;
-  var hotel; //agregado
   var url; 
   var i = 0;
    $(document).ready(function(){
@@ -88,46 +136,8 @@
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       }
     });
-
-    var paquete = '{{  $paquete->id }}';
-    $('#destinos-table').DataTable();
-
-    var enlazado_id = null;
-    $('.eliminarDestino').on('click', function(){
-      var $button = $(this);
-      enlazado_id = $(this).data('destino');
-      var table = $('#destinos-table').DataTable(); 
-      swal({
-        title: "Atención!.",
-        text: "¿Está seguro de que desea eliminar este destino?'",
-        icon: "warning",
-        buttons: {
-          cancel: 'No',
-          confirm: 'Si'
-        },
-        dangerMode: true
-      }).then(isConfirm => {
-        if(isConfirm) {
-          
-          var url = full_url + '/safip/public/Paso/2/Paquete/DestroyDestino';
-          
-          $.ajax({
-            url: url,
-            type: 'POST',
-            data: { destino: enlazado_id },
-            dataType: 'json'
-          })
-          .done(function(response){ //                        
-              toastr.success('Destino eliminado con exito!');              
-              table.row( $button.parents('tr') ).remove().draw();
-          });
-        }
-      })
-    
-      });
-
-
     /*Start nuevo*/
+    $("#codigo").prop("disabled", true);
     $('#destino').multiSelect({
       selectableHeader: "<input type='text' class='search-input form-control' autocomplete='off' placeholder='Buscar hotel...'>",
       selectionHeader: "<input type='text' class='search-input form-control' autocomplete='off' placeholder='Buscar hotel...'>",
@@ -154,12 +164,12 @@
           }
         });
       }, 
-      afterSelect: function(hotel){        
-          destinos.push({ paquete_id: $('#paquete_id').val(), destino_id: hotel[0], noches: $('#noches').val() });
+      afterSelect: function(value){
+          destinos.push({ paquete_id: $('#paquete_id').val(), destino_id: value[0], noches: $('#noches').val() });
           $('#noches').val('0');
       },
-      afterDeselect: function(hotel){
-          destinos.splice(destinos.findIndex(item => item.destino_id === hotel[0]), 1)
+      afterDeselect: function(value){
+          destinos.splice(destinos.findIndex(item => item.destino_id === value[0]), 1)
       },
     });
 
@@ -190,29 +200,13 @@
               }
             });
           },
-          afterSelect: function(hoteles){
-            /*validacion cantidad de noches*/
-            if($('#noches').val()<1) {
-              toastr.warning('Días de hospedaje debe ser mayor a cero!');
-              for(i=0;i<hoteles.length;i++) {
-                $('#destinos-hoteles').multiSelect('deselect', [hoteles[i]]); //deselecciona ultima opcion
-
-              }
-            }
-            else {
-              for(i=0;i<hoteles.length;i++) {
-                hotel = hoteles[i].split("_");
-                destinos.push({ paquete_id: $('#paquete_id').val(), destino_id: hotel[0], hotel_id: hotel[1], noches: $('#noches').val(), value: hotel });              
-              }
-              $('#noches').val('0');
-            }
-            
+          afterSelect: function(value){
+            var values = value[0].split("_");
+            destinos.push({ paquete_id: $('#paquete_id').val(), destino_id: values[0], hotel_id: values[1], noches: $('#noches').val(), value: value });
+            $('#noches').val('0');
           },
-          afterDeselect: function(hoteles){
-            for(i=0;i<hoteles.length;i++) {
-              hotel = hoteles[i].split("_");
-              destinos.splice(destinos.findIndex(item => item.hotel_id === hotel[0]), 1)
-            }          
+          afterDeselect: function(value){
+            destinos.splice(destinos.findIndex(item => item.value === value[0]), 1)
           }
 
       });
@@ -222,28 +216,19 @@
         if(val == 'si'){
           $('.selector').hide();
           $('.selector-hoteles').show();
-          toastr.info('Hoteles seleccionados!');
-          
-          
+          $('#destinos-hoteles').addClass("disabled");
+
           $('#btn-step2').css('display', 'none');
           $('#btn-step2-hoteles').css('display', 'block');
         }else{
           $('.selector-hoteles').hide(); 
           $('.selector').show();
-          toastr.info('Hoteles desactivados!');
           $('#btn-step2').css('display', 'block');
           $('#btn-step2-hoteles').css('display', 'none');
         }
     });
 
      /*End Nuevo*/
-     $(".chosen-select").chosen(
-     {
-        allow_single_deselect: true, 
-        disable_search: true
-    });
-
-
     $('#btn-step2').on('click', function(e){
       e.preventDefault();
       var frm = $('#destino-form');
@@ -256,7 +241,6 @@
         .done(function(response){ //
 
           if(response == 1) {                        
-            toastr.success('Datos almacenados con exito!');
             $('#a_tab3').trigger('click'); //se activa siguiente tab #3
           }
         }); 
@@ -267,9 +251,8 @@
       e.preventDefault();
       var frm = $('#destino-form');
       $.ajax({
-          //url: full_url + '/safip/public/Paso/2/Enlazar/Hoteles/Paquete/'+destinos[0]['paquete_id'],
-          url: full_url + '/Paso/2/Enlazar/Hoteles/Paquete/'+destinos[0]['paquete_id'],
-          
+         // url: full_url + '/safip/public/Paso/2/Enlazar/Hoteles/Paquete/'+destinos[0]['paquete_id'],
+         url: full_url + '/Paso/2/Enlazar/Hoteles/Paquete/'+destinos[0]['paquete_id'],
           type: frm[0].method,
           dataType: 'json',
           data: { destinos: destinos },
@@ -277,7 +260,6 @@
         .done(function(response){ //
           
           if(response != '') {                        
-            toastr.success('Datos almacenados con exito!');
             $('#a_tab3').trigger('click'); //se activa siguiente tab #3
           }
         }); 
@@ -425,7 +407,7 @@
 
         
       })
-    $('#nombre').on('click', function(){
+    /*$('#nombre').on('click', function(){
         var cod = $("#codigo").val();
         console.log(cod);
         if($("#codigo").val() == ""){
@@ -436,13 +418,19 @@
             //toastr.success("exacto");
             $.ajax({
                type:'GET',
-               url: full_url + '/safip/public/validate/code/' + cod,
+               //data: {
+               //   id: id,
+               //   _token: $('#signup-token').val(),
+               //   texto: texto,
+               //},
+               url: '/validate/code/'+cod,
                success:function(data){
                     console.log(data);
                     if (data > 0) {
                         toastr.info("El codigo esta repetido.");
                     } else {
                         toastr.success("Codigo " + cod + " Valido");
+                        //this.package.validated = true;
                     }
                   //toastr.success('Dato actualizado con exito!.');
                },
@@ -451,7 +439,7 @@
                }
             });
         }
-    });
+    });*/
     $("#file").change(function () {
           filePreview(this);
     });
@@ -468,14 +456,14 @@
     function validaForm(){
     // Campos de texto
         if($("#codigo").val() == ""){
-            toastr.warning("Debe colocar un codigo");            
+            toastr.warning("Debe colocar un codigo");
+            //alert("El campo Nombre no puede estar vacío.");
             $("#codigo").focus();       // Esta función coloca el foco de escritura del usuario en el campo Nombre directamente.
             return false;
         }
         return true;
     }
+   })
 
-   });
-
-</script>-->
-{{--@endsection--}}
+</script>
+@endsection

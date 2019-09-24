@@ -10,7 +10,7 @@ use App\Pagina\PaginaDestino;
 use App\Pagina\PaginaListado;
 use App\Pagina\PaginaDestinoPaquete;
 use App\Http\Controllers\Controller;
- 
+
 class PaginaPaquetePaso2Controller extends Controller
 {
     # Herramienta para simplificacion y uso de estos datos en varias funciones
@@ -80,19 +80,29 @@ class PaginaPaquetePaso2Controller extends Controller
     // DESTINOS
     public function agregarDestino(Request $request, PaginaPaquete $paquete)
     {
-
-        $destinoPaquete = PaginaDestinoPaquete::where('paquete_id', $paquete->id)->where('destino_id', $request['destino_id'])->count();
-
-        foreach ($request['destinos'] as $destino) {
-
+        //dd($request->all());
+        $destinoPaquete = PaginaDestinoPaquete::where('paquete_id', $paquete->id)->where('destino_id', $request->destino)->count();
+        //dd($destinoPaquete);
+        $n = $request->noches;
+        //dd($n, $request->all());
+        if($destinoPaquete > 0){
+            return 0;
+        }
+        if(is_null($n)){
             $noche = PaginaNoche::create([
-                'cantidad' => $destino['noches']
+                'cantidad' => 0
             ]);
-            
+        }else{
+            $noche = PaginaNoche::create([
+                'cantidad' => $n
+            ]);
+        }
+
+        foreach ($request->destino as $destino) {
             PaginaDestinoPaquete::create([
                 'noche_id'      => $noche->id,
-                'destino_id'    => $destino['destino_id'],
-                'paquete_id'    => $destino['paquete_id'],
+                'destino_id'    => $destino,
+                'paquete_id'    => $paquete->id,
             ]);
         }
         
@@ -100,34 +110,14 @@ class PaginaPaquetePaso2Controller extends Controller
     }
 
     public function destroyDestino(Request $request) {
-
         $destinoPaquete = PaginaDestinoPaquete::findOrFail($request->destino);
         $destinoPaquete->delete();
         return;
     }
 
     public function enlazar(PaginaPaquete $paquete, Request $request){
-
-        //dd($request->all());
-        $dest = null;
-        foreach ($request['destinos'] as $destino) {
-            $codigo = bcrypt(str_random(15) . rand(1,999)).date("ymd");
-
-            if($dest != $destino['destino_id']) {
-                $dest = $destino['destino_id'];
-                $noche = PaginaNoche::create([
-                    'cantidad' => $destino['noches']
-                ]);    
-            }
-            
-            PaginaListado::create([
-                'codigo'        => $codigo,
-                'noche_id'      => $noche->id,
-                'hotel_id'      => $destino['hotel_id'],
-                'paquete_id'    => $destino['paquete_id'],
-            ]);
-        }
-        /*if(count($request->multis) > 0){
+        dd($request->all());
+        if(count($request->multis) > 0){
             //bcrypt(str_random(15) . rand(1,999)).date("ymd");
             foreach($request->multis as $ml){
                 $codigo = bcrypt(str_random(15) . rand(1,999)).date("ymd");
@@ -171,7 +161,7 @@ class PaginaPaquetePaso2Controller extends Controller
                 }
             }
             //return;
-        }*/
+        }
         $paquete->load('listados.destino.hoteles.categoria', 'listados.noches','enlazados.hotel', 'enlazados.noches');
         return $paquete;
     }
@@ -196,29 +186,19 @@ class PaginaPaquetePaso2Controller extends Controller
     }
 
     public function eliminarEnlace(Request $request){
-
-        $enlace = PaginaListado::where('id', $request['enlazado_id'])->first();
-        $enlace->delete();
-
-        $enlazados = PaginaListado::all();
-        $response = [];
-
-        foreach($enlazados as $enlazado) {
-            array_push($response, ['id' => $enlazado->id, 
-                                   'hotel' => $enlazado->hotel->nombre,
-                                   'estrella' => $enlazado->hotel->estrella,
-                                   'p_swb' => $enlazado->hotel->p_swb,
-                                   'p_dwb' => $enlazado->hotel->p_dwb,
-                                   'p_tpl' => $enlazado->hotel->p_tpl,
-                                   'p_chd' => $enlazado->hotel->p_chd,
-                                   'e_swb' => $enlazado->hotel->e_swb,
-                                   'e_dwb' => $enlazado->hotel->e_dwb,
-                                   'e_tpl' => $enlazado->hotel->e_tpl,
-                                   'e_chd' => $enlazado->hotel->e_chd,
-
-                                    ]);
+        if($request->codigo === 'todos'){
+            $paquete = PaginaPaquete::findOrFail($request->paquete);
+            $paquete->load('enlazados');
+            foreach ($paquete->enlazados as $enlace) {
+                $enlace->delete();
+            }
+            return;
         }
-        return response()->json($response);
+        $enlaces = PaginaListado::where('codigo', $request->codigo)->get();
+        foreach ($enlaces as $enlace) {
+            $enlace->delete();
+        }
+        return;
     }
 
     public function destacar_ind(Request $request)

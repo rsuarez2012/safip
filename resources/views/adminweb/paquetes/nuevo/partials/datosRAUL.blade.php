@@ -1,41 +1,53 @@
-<div class="col-sm-6">
-    <div class="form-group">
-        <label>Codigo Paquete</label>
-        {{--<input :disabled="package.validated" class="form-control" v-model="package.code" type="text" placeholder="Codigo" id="codigo">--}}
-        <input class="form-control" type="text" autocomplete="off" placeholder="Codigo" id="codigo" name="code" value="{{ old('code', $paquete->codigo)}}">
-    </div>
-    <div class="form-group">
-        <label>Nombre Paquete</label>
-        <input class="form-control" type="text" autocomplete="off" placeholder="Nombre" id="nombre" name="name" value="{{ old('name', $paquete->nombre) }}">
-    </div>
 
-    <div class="form-group">        
-        <label>Categoria Paquete</label>
-        <select name="category" id="category" class="form-control">
-            @foreach($categorias as $categoria)
-            <option value="{{$categoria->id}}" {{ $categoria->id == $paquete->categoria_id ? "selected" : "" }}>{{$categoria->nombre}}</option>    
-            @endforeach
-        </select>
-    </div>
-    <div class="form-group">
-        <label>Zona</label>
-        <select class="form-control" name="zone" id="zona">
-            <option value="costa" {{ $paquete->zona == 'costa' ? 'selected' : '' }}>Costa</option>
-            <option value="sierra" {{ $paquete->zona == 'sierra' ? 'selected' : '' }}>Sierra</option>
-            <option value="selva" {{ $paquete->zona == 'selva' ? 'selected' : '' }}>Selva</option>    
-        </select>
-    </div>
+    <div class="col-sm-6">
+        <div class="form-group">
+            <label>Codigo Paquete</label>
+            {{--<input :disabled="package.validated" class="form-control" v-model="package.code" type="text" placeholder="Codigo" id="codigo">--}}
+            <input class="form-control" type="text" placeholder="Codigo" id="codigo" name="code" value="{{ old('code', $paquete->codigo)}}">
+        </div>
+        <div class="form-group">
+            <label>Nombre Paquete</label>
+            <input class="form-control" type="text" placeholder="Nombre" id="nombre" name="name" value="{{ old('name', $paquete->nombre) }}">
+        </div>
+ 
+        <div class="form-group">        
+            <label>Categoria Paquete</label>
+            <select name="category" id="category" class="form-control">
+                @foreach($categorias as $categoria)
+                <option value="{{$categoria->id}}" {{ $categoria->id == $paquete->categoria_id ? "selected" : "" }}>{{$categoria->nombre}}</option>    
+                @endforeach
+            </select>
+            {{--<select cname="miselect[]" data-placeholder="Choose a Country..." class="chosen-select form-control" tabindex="2" multiple>
+                @foreach($categorias as $categoria)
+                <option>{{$categoria->nombre}}</option>
+                @endforeach
+                
+            </select>--}}
+            {{--<select @change="changeCategory()" class="form-control" v-model="package.category" id="categoria">
+                <template v-for="option in categories">
+                    <option :value="option.id">@{{option.nombre}}</option>    
+                </template>    
+            </select>--}}
+        </div>
+        <div class="form-group">
+            <label>Zona</label>
+            <select class="form-control" name="zone" id="zona">
+                <option value="costa" {{ $paquete->zona == 'costa' ? 'selected' : '' }}>Costa</option>
+                <option value="sierra" {{ $paquete->zona == 'sierra' ? 'selected' : '' }}>Sierra</option>
+                <option value="selva" {{ $paquete->zona == 'selva' ? 'selected' : '' }}>Selva</option>    
+            </select>
+        </div>
+    
+        <div class="form-group">
+            <label>Imagen Paquete</label>
+            <input class="form-control" @change="processFile($event)" type="file" accept="image/*" id="file" name="img">
+            <span class="help-block">Las medidas del banner deben ser 700px por 263px</span>
+        </div>
 
-    <div class="form-group">
-        <label>Imagen Paquete</label>
-        <input class="form-control" @change="processFile($event)" type="file" accept="image/*" id="file" name="img">
-        <span class="help-block">Las medidas del banner deben ser 700px por 263px</span>
+        <div class="clearfix"></div>
+
+        <br>
     </div>
-
-    <div class="clearfix"></div>
-
-    <br>
-</div>
     <div class="col-sm-6">
         <div class="form-group">
         
@@ -46,7 +58,7 @@
                 
                 </div>
                     {{--<img  :src="route+'/storage/original/'+package.image" alt="Este dia no tiene una imagen">--}}
-                    @if(is_null($paquete->imagen))
+                    @if(empty($paquete->imagen))
 
                     @else
                       <img src="{{asset('storage/original/'.$paquete->imagen)}}" alt="" width="450" height="200">
@@ -71,15 +83,14 @@
 
     
 
-{{--@section('script')--}}
-<!--<script type="text/javascript">
+{{--@section('script')
+<script type="text/javascript">
   var protocol = $(location).attr('protocol');
   var url = $(location).attr('host');
   var full_url = protocol + '//' + url;
 
   var destinos = [];  
   var destino_id;
-  var hotel; //agregado
   var url; 
   var i = 0;
    $(document).ready(function(){
@@ -88,46 +99,8 @@
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       }
     });
-
-    var paquete = '{{  $paquete->id }}';
-    $('#destinos-table').DataTable();
-
-    var enlazado_id = null;
-    $('.eliminarDestino').on('click', function(){
-      var $button = $(this);
-      enlazado_id = $(this).data('destino');
-      var table = $('#destinos-table').DataTable(); 
-      swal({
-        title: "Atención!.",
-        text: "¿Está seguro de que desea eliminar este destino?'",
-        icon: "warning",
-        buttons: {
-          cancel: 'No',
-          confirm: 'Si'
-        },
-        dangerMode: true
-      }).then(isConfirm => {
-        if(isConfirm) {
-          
-          var url = full_url + '/safip/public/Paso/2/Paquete/DestroyDestino';
-          
-          $.ajax({
-            url: url,
-            type: 'POST',
-            data: { destino: enlazado_id },
-            dataType: 'json'
-          })
-          .done(function(response){ //                        
-              toastr.success('Destino eliminado con exito!');              
-              table.row( $button.parents('tr') ).remove().draw();
-          });
-        }
-      })
-    
-      });
-
-
     /*Start nuevo*/
+    //$("#codigo").prop("disabled", true);
     $('#destino').multiSelect({
       selectableHeader: "<input type='text' class='search-input form-control' autocomplete='off' placeholder='Buscar hotel...'>",
       selectionHeader: "<input type='text' class='search-input form-control' autocomplete='off' placeholder='Buscar hotel...'>",
@@ -154,12 +127,12 @@
           }
         });
       }, 
-      afterSelect: function(hotel){        
-          destinos.push({ paquete_id: $('#paquete_id').val(), destino_id: hotel[0], noches: $('#noches').val() });
+      afterSelect: function(value){
+          destinos.push({ paquete_id: $('#paquete_id').val(), destino_id: value[0], noches: $('#noches').val() });
           $('#noches').val('0');
       },
-      afterDeselect: function(hotel){
-          destinos.splice(destinos.findIndex(item => item.destino_id === hotel[0]), 1)
+      afterDeselect: function(value){
+          destinos.splice(destinos.findIndex(item => item.destino_id === value[0]), 1)
       },
     });
 
@@ -190,29 +163,13 @@
               }
             });
           },
-          afterSelect: function(hoteles){
-            /*validacion cantidad de noches*/
-            if($('#noches').val()<1) {
-              toastr.warning('Días de hospedaje debe ser mayor a cero!');
-              for(i=0;i<hoteles.length;i++) {
-                $('#destinos-hoteles').multiSelect('deselect', [hoteles[i]]); //deselecciona ultima opcion
-
-              }
-            }
-            else {
-              for(i=0;i<hoteles.length;i++) {
-                hotel = hoteles[i].split("_");
-                destinos.push({ paquete_id: $('#paquete_id').val(), destino_id: hotel[0], hotel_id: hotel[1], noches: $('#noches').val(), value: hotel });              
-              }
-              $('#noches').val('0');
-            }
-            
+          afterSelect: function(value){
+            var values = value[0].split("_");
+            destinos.push({ paquete_id: $('#paquete_id').val(), destino_id: values[0], hotel_id: values[1], noches: $('#noches').val(), value: value });
+            $('#noches').val('0');
           },
-          afterDeselect: function(hoteles){
-            for(i=0;i<hoteles.length;i++) {
-              hotel = hoteles[i].split("_");
-              destinos.splice(destinos.findIndex(item => item.hotel_id === hotel[0]), 1)
-            }          
+          afterDeselect: function(value){
+            destinos.splice(destinos.findIndex(item => item.value === value[0]), 1)
           }
 
       });
@@ -222,15 +179,13 @@
         if(val == 'si'){
           $('.selector').hide();
           $('.selector-hoteles').show();
-          toastr.info('Hoteles seleccionados!');
-          
-          
+          $('#destinos-hoteles').addClass("disabled");
+
           $('#btn-step2').css('display', 'none');
           $('#btn-step2-hoteles').css('display', 'block');
         }else{
           $('.selector-hoteles').hide(); 
           $('.selector').show();
-          toastr.info('Hoteles desactivados!');
           $('#btn-step2').css('display', 'block');
           $('#btn-step2-hoteles').css('display', 'none');
         }
@@ -256,7 +211,6 @@
         .done(function(response){ //
 
           if(response == 1) {                        
-            toastr.success('Datos almacenados con exito!');
             $('#a_tab3').trigger('click'); //se activa siguiente tab #3
           }
         }); 
@@ -267,9 +221,8 @@
       e.preventDefault();
       var frm = $('#destino-form');
       $.ajax({
-          //url: full_url + '/safip/public/Paso/2/Enlazar/Hoteles/Paquete/'+destinos[0]['paquete_id'],
-          url: full_url + '/Paso/2/Enlazar/Hoteles/Paquete/'+destinos[0]['paquete_id'],
-          
+         // url: full_url + '/safip/public/Paso/2/Enlazar/Hoteles/Paquete/'+destinos[0]['paquete_id'],
+         url: full_url + '/Paso/2/Enlazar/Hoteles/Paquete/'+destinos[0]['paquete_id'],
           type: frm[0].method,
           dataType: 'json',
           data: { destinos: destinos },
@@ -277,7 +230,6 @@
         .done(function(response){ //
           
           if(response != '') {                        
-            toastr.success('Datos almacenados con exito!');
             $('#a_tab3').trigger('click'); //se activa siguiente tab #3
           }
         }); 
@@ -313,7 +265,7 @@
                   data: $(formID).serialize(),
                   dataType: 'html',
                   success:function(data){
-                     /*$('#table tbody').append('<tr class="inclu{{--$dato->id}}"><td style="border-top:0;"><input type="text" class="form-control" value="{{$dato->texto}}" id="{{$dato->id}}"></td><td class="pull-right" style="margin-top:6px;border-top:0;"><button class="btn btn-warning btn-xs ed" data-id="{{$dato->id}}"><i class="fa fa-edit"></i> Editar</button><button class="btn btn-danger btn-xs dele-in" data-id="{{$dato->id--}}"><i class="fa fa-trash"></i> Eliminar</button></td></tr>');*/
+                     /*$('#table tbody').append('<tr class="inclu{{--$dato->id}}"><td style="border-top:0;"><input type="text" class="form-control" value="{{$dato->texto}}" id="{{$dato->id}}"></td><td class="pull-right" style="margin-top:6px;border-top:0;"><button class="btn btn-warning btn-xs ed" data-id="{{$dato->id}}"><i class="fa fa-edit"></i> Editar</button><button class="btn btn-danger btn-xs dele-in" data-id="{{$dato->id--}}{{--"><i class="fa fa-trash"></i> Eliminar</button></td></tr>');*/
                      //$('#table tbody').append(data);
                      $('#table tbody').load(data);
                      toastr.success('Dato registrado con exito!.');
@@ -436,13 +388,19 @@
             //toastr.success("exacto");
             $.ajax({
                type:'GET',
-               url: full_url + '/safip/public/validate/code/' + cod,
+               /*data: {
+                  id: id,
+                  _token: $('#signup-token').val(),
+                  texto: texto,
+               },*/
+               url: '/validate/code/'+cod,
                success:function(data){
                     console.log(data);
                     if (data > 0) {
                         toastr.info("El codigo esta repetido.");
                     } else {
                         toastr.success("Codigo " + cod + " Valido");
+                        //this.package.validated = true;
                     }
                   //toastr.success('Dato actualizado con exito!.');
                },
@@ -468,14 +426,14 @@
     function validaForm(){
     // Campos de texto
         if($("#codigo").val() == ""){
-            toastr.warning("Debe colocar un codigo");            
+            toastr.warning("Debe colocar un codigo");
+            //alert("El campo Nombre no puede estar vacío.");
             $("#codigo").focus();       // Esta función coloca el foco de escritura del usuario en el campo Nombre directamente.
             return false;
         }
         return true;
     }
+   })
 
-   });
-
-</script>-->
-{{--@endsection--}}
+</script>
+@endsection--}}

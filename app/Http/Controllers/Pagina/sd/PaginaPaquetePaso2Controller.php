@@ -10,7 +10,7 @@ use App\Pagina\PaginaDestino;
 use App\Pagina\PaginaListado;
 use App\Pagina\PaginaDestinoPaquete;
 use App\Http\Controllers\Controller;
- 
+
 class PaginaPaquetePaso2Controller extends Controller
 {
     # Herramienta para simplificacion y uso de estos datos en varias funciones

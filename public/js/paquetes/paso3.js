@@ -1,7 +1,7 @@
 const tres = new Vue({
     el: '#main-paso3',
     created() {
-        this.loadPage();
+        //this.loadPage();
         this.act();
     },
     data: {
@@ -57,7 +57,7 @@ const tres = new Vue({
     },
     methods: {
         //funciones de paquetes
-        loadPage() {
+        /*loadPage() {
             swal({
                 title: "Cargando",
                 text: "espere un momento mientras se carga la pagina",
@@ -73,7 +73,7 @@ const tres = new Vue({
             });
             this.getPackage();
             this.getNeto();
-        },
+        },*/
         getPackage() {
             var package_id = $("input[name='id_oculto']").val();
             var url = this.route + '/get/package/' + package_id;

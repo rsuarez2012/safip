@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Pagina;
-
+ 
 use App\Pagina\PaginaHotel;
 use App\Pagina\PaginaNoche;
 use Illuminate\Http\Request;
@@ -10,7 +10,7 @@ use App\Pagina\PaginaDestino;
 use App\Pagina\PaginaListado;
 use App\Pagina\PaginaDestinoPaquete;
 use App\Http\Controllers\Controller;
- 
+
 class PaginaPaquetePaso2Controller extends Controller
 {
     # Herramienta para simplificacion y uso de estos datos en varias funciones
@@ -100,7 +100,6 @@ class PaginaPaquetePaso2Controller extends Controller
     }
 
     public function destroyDestino(Request $request) {
-
         $destinoPaquete = PaginaDestinoPaquete::findOrFail($request->destino);
         $destinoPaquete->delete();
         return;
@@ -196,29 +195,19 @@ class PaginaPaquetePaso2Controller extends Controller
     }
 
     public function eliminarEnlace(Request $request){
-
-        $enlace = PaginaListado::where('id', $request['enlazado_id'])->first();
-        $enlace->delete();
-
-        $enlazados = PaginaListado::all();
-        $response = [];
-
-        foreach($enlazados as $enlazado) {
-            array_push($response, ['id' => $enlazado->id, 
-                                   'hotel' => $enlazado->hotel->nombre,
-                                   'estrella' => $enlazado->hotel->estrella,
-                                   'p_swb' => $enlazado->hotel->p_swb,
-                                   'p_dwb' => $enlazado->hotel->p_dwb,
-                                   'p_tpl' => $enlazado->hotel->p_tpl,
-                                   'p_chd' => $enlazado->hotel->p_chd,
-                                   'e_swb' => $enlazado->hotel->e_swb,
-                                   'e_dwb' => $enlazado->hotel->e_dwb,
-                                   'e_tpl' => $enlazado->hotel->e_tpl,
-                                   'e_chd' => $enlazado->hotel->e_chd,
-
-                                    ]);
+        if($request->codigo === 'todos'){
+            $paquete = PaginaPaquete::findOrFail($request->paquete);
+            $paquete->load('enlazados');
+            foreach ($paquete->enlazados as $enlace) {
+                $enlace->delete();
+            }
+            return;
         }
-        return response()->json($response);
+        $enlaces = PaginaListado::where('codigo', $request->codigo)->get();
+        foreach ($enlaces as $enlace) {
+            $enlace->delete();
+        }
+        return;
     }
 
     public function destacar_ind(Request $request)

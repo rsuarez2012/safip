@@ -556,9 +556,9 @@ Route::group(['middleware'=>['authen','roles'],'roles'=>['1']],function(){
     /* RUTAS PARA VUEJS */
     Route::get('/Paso/2/load/paquete/{paquete}', 'Pagina\PaginaPaquetePaso2Controller@load_paquete');
     Route::post('/Paso/2/load/destinos', 'Pagina\PaginaPaquetePaso2Controller@load_destinos');
-    Route::post('/Paso/2/Paquete/{paquete}/Agregar/Destino', 'Pagina\PaginaPaquetePaso2Controller@agregarDestino');
+    Route::post('/Paso/2/Paquete/{paquete}/Agregar/Destino', 'Pagina\PaginaPaquetePaso2Controller@agregarDestino')->name('agregar.desr');
     Route::post('/Paso/2/Paquete/DestroyDestino', 'Pagina\PaginaPaquetePaso2Controller@destroyDestino');
-    Route::post('/Paso/2/Enlazar/Hoteles/Paquete/{paquete}', 'Pagina\PaginaPaquetePaso2Controller@enlazar');
+    Route::post('/Paso/2/Enlazar/Hoteles/Paquete/{paquete}', 'Pagina\PaginaPaquetePaso2Controller@enlazar')->name('paquete.renlace');
     Route::post('/Paso/2/Paquete/DestroyEnlace', 'Pagina\PaginaPaquetePaso2Controller@eliminarEnlace');
     Route::post('/Paso/2/Destacar/Hoteles/Ind', 'Pagina\PaginaPaquetePaso2Controller@destacar_ind');
     Route::post('/Paso/2/Destacar/5/Hoteles/Paquete/{paquete}', 'Pagina\PaginaPaquetePaso2Controller@destacar_varios');

@@ -36,7 +36,9 @@ th, td {
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <a href="{{route('manageProduct-paso-1-A')}}"
+                        {{--<a href="{{route('manageProduct-paso-1-A')}}"
+                            class="btn btn-danger pull-right" style="margin-top:14%;">--}}
+                        <a href="{{route('paquete.create')}}"
                             class="btn btn-danger pull-right" style="margin-top:14%;">
                             <i class="fa fa-plus-circle"></i> Crear Nuevo Paquete
                         </a>

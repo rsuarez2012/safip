@@ -96,7 +96,7 @@ class PaginaPaquetePaso1Controller extends Controller
 		//dd($paquete->id);
 		//return $paquete->id;
 		$pack = $paquete->id;
-		//dd($pack); 
+		//dd($pack);
 		 $categorias = PaginaCategoriaPaquete::all();
 		//return redirect()->route('paquete.edit.paso1', $pack);
 		return redirect()->route('paquete.editar', $pack);
