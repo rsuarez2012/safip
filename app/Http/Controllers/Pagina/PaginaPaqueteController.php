@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Pagina;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+ 
 use Auth;
 use App\Pagina\Tiket;
 use App\Pagina\Contact;
@@ -13,6 +13,7 @@ use App\Pagina\PaginaNoche;
 use App\Pagina\Reservation;
 use App\Pagina\PaginaPaquete;
 use App\Pagina\PaginaListado;
+use App\Pagina\PaginaDestino;
 use App\Pagina\PuntoEncuentro;
 use App\Pagina\PaginaActividad;
 use App\Pagina\SalidaConfirmada;
@@ -411,7 +412,9 @@ class PaginaPaqueteController extends Controller
     {
         $paquete = new PaginaPaquete();
         $categorias = PaginaCategoriaPaquete::all();
-        return view('adminweb.paquetes.nuevo.create', compact('categorias', 'paquete')); 
+        $destinos = PaginaDestino::all();
+        $destinosP = PaginaDestino::all();
+        return view('adminweb.paquetes.nuevos.create', compact('categorias', 'paquete', 'destinos', 'destinosP')); 
     }
     public function store(Request $data)
     {
@@ -458,7 +461,6 @@ class PaginaPaqueteController extends Controller
     }
     public function edit(PaginaPaquete $paquete)
     {
-        //dd($paquete);
         return view('adminweb.paquetes.nuevo.create', compact('paquete'));
     }
 }

@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\Pagina;
 
 use Illuminate\Http\Request;
+use App\Pagina\PaginaHotel;
+
 use App\Pagina\PaginaDestino;
 use App\Pagina\PaginaPaquete;
+use App\Pagina\PaginaListado;
 use App\Pagina\PuntoEncuentro;
 use App\Pagina\SalidaConfirmada;
+use App\Pagina\PaginaDestinoPaquete;
 use App\Http\Controllers\Controller;
 use App\Pagina\PaginaCategoriaPaquete;
 use Illuminate\Support\Facades\Storage;
@@ -95,9 +99,10 @@ class PaginaPaquetePaso1Controller extends Controller
 		//dd($paquete->id);
 		//return $paquete->id;
 		$pack = $paquete->id;
+		//dd($pack); 
 		 $categorias = PaginaCategoriaPaquete::all();
 		//return redirect()->route('paquete.edit.paso1', $pack);
-		return redirect()->route('paquete.editar', $paquete);
+		return redirect()->route('paquete.editar', $pack);
 		//return redirect()->back();
 	}
 	public function verCodigo($code)
@@ -146,7 +151,7 @@ class PaginaPaquetePaso1Controller extends Controller
 	}*/
 	public function edit(PaginaPaquete $paquete)
 	{
-		//dd($paquete);
+
 		//$dat = PaginaDatoPaquete::where('paquete_id', $paquete->id)->get();
 		$datos = PaginaDatoPaquete::where('paquete_id', $paquete->id)->where('tipo', 'incluido')->get();
 		$llevar = PaginaDatoPaquete::where('paquete_id', $paquete->id)->where('tipo', 'llevar')->get();
@@ -155,26 +160,29 @@ class PaginaPaquetePaso1Controller extends Controller
 		$noincluidos = PaginaDatoPaquete::where('paquete_id', $paquete->id)->where('tipo', 'noincluido')->get();
 		$tarifas = PaginaDatoPaquete::where('paquete_id', $paquete->id)->where('tipo', 'politicatarifa')->get();
 		$responsabilidades = PaginaDatoPaquete::where('paquete_id', $paquete->id)->where('tipo', 'responsabilidades')->get();
-		$importantes = PaginaDatoPaquete::where('paquete_id', $paquete->id)->where('tipo', 'importante')->get();
-		//dd($paquete);
+		$importantes = PaginaDatoPaquete::where('paquete_id', $paquete->id)->where('tipo', 'importante')->get();;
 		$paquete_id = $paquete;
-		$paquete;
+
 		$dat = $paquete->id;
 		$categorias = PaginaCategoriaPaquete::all();
+		$destinos = PaginaDestino::get();
+		$destinosP = PaginaDestinoPaquete::where('paquete_id', $dat)->groupBy(['destino_id'])->get();
+		//dd($destinosP);
 		/*return view('adminweb.paquetes.pasos.paso1', compact('datos', 'paquete_id', 'llevar', 'politicas', 'fechas', 'noincluidos', 'tarifas', 'responsabilidades', 'importantes', 'dat'));*/
-		return view('adminweb.paquetes.nuevo.edit', compact('datos', 'paquete_id', 'llevar', 'politicas', 'fechas', 'noincluidos', 'tarifas', 'responsabilidades', 'importantes', 'dat', 'categorias', 'paquete'));
-		//return view('adminweb.paquetes.nuevo.create', compact('paquete'));
-
+		return view('adminweb.paquetes.nuevos.edit', compact('datos', 'paquete_id', 'llevar', 'politicas', 'fechas', 'noincluidos', 'tarifas', 'responsabilidades', 'importantes', 'dat', 'categorias', 'paquete', 'destinos', 'destinosP'));
+	
 	}
 	public function update(Request $request, PaginaPaquete $paquete)
 	{
-		//dd($request->all());
+		
+		$paquete = PaginaPaquete::find($request->id);
+		
 		$paquete->nombre       = $request->name;
 		$paquete->descripcion  = 'nada';//$request->description;
 		$paquete->extracto     = 'nada';//$request->extrac;
 		$paquete->categoria_id = $request->category;
 		$paquete->zona         = $request->zone;
-		//dd($paquete->salida);
+		
 		if(count($request->file()) > 0){
 			Storage::disk('public')->delete('big/'.$paquete->imagen);
 			Storage::disk('public')->delete('medium/'.$paquete->imagen);
@@ -182,10 +190,10 @@ class PaginaPaquetePaso1Controller extends Controller
 			Storage::disk('public')->delete('original/'.$paquete->imagen);
 			$paquete->imagen = $this->cargarImagenes($request);
 		}
-		$paquete->update();
+		$paquete->save();
 
-		//return /*redirect()->route('manageProduct-A')->with('info', 'Paquete editado correctamente!.')*/;
-		return redirect()->back();
+		return redirect()->route('manageProduct-A')->with('info', 'Paquete editado correctamente!.');
+		//return redirect()->back();
 	}
 	public function cargarImagenes($data){
 		$carpetas = [["original",null],["miniature",150],["medium",300],["big",700]];
@@ -218,5 +226,16 @@ class PaginaPaquetePaso1Controller extends Controller
 	public function cargar_data_base(PaginaPaquete $paquete){
         return $paquete->load('datos');
         //return $paquete->with('datos')->get();
+    }
+    public function destinosP(Request $request)
+    {
+    	//if($request->ajax()){
+
+			$destinosP = PaginaHotel::where('destino_id', $request['destino'])->get();
+		    //	dd($destinosP);
+	    	return response()->json($destinosP);
+	    	//return $destinosP;
+    	//}
+    	//dd($destinosP[0]->destino->nombre);
     }
 }

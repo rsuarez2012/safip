@@ -10,12 +10,12 @@ use App\Pagina\PaginaDestino;
 use App\Pagina\PaginaListado;
 use App\Pagina\PaginaDestinoPaquete;
 use App\Http\Controllers\Controller;
-
+ 
 class PaginaPaquetePaso2Controller extends Controller
 {
     # Herramienta para simplificacion y uso de estos datos en varias funciones
     public function tool($id){
-    	$destinos = PaginaDestino::all();
+        $destinos = PaginaDestino::all();
         $paquete  = PaginaPaquete::findOrFail($id);
         $hoteles  = PaginaHotel::all();
 
@@ -78,39 +78,72 @@ class PaginaPaquetePaso2Controller extends Controller
     }
 
     // DESTINOS
-    public function agregarDestino(Request $request, PaginaPaquete $paquete){
-        $destinoPaquete = PaginaDestinoPaquete::where('paquete_id', $paquete->id)->where('destino_id', $request->destino)->count();
-        $n = $request->noches;
-        //dd($n, $request->all());
-        if($destinoPaquete > 0){
-            return 0;
-        }
-        if(is_null($n)){
-            $noche = PaginaNoche::create([
-                'cantidad' => 0
-            ]);
-        }else{
-            $noche = PaginaNoche::create([
-                'cantidad' => $n
-            ]);
-        }
+    public function agregarDestino(Request $request, PaginaPaquete $paquete)
+    {
+        //dd($request->all());
+        $paque = $request->id;
 
+        $destinoPaquete = PaginaDestinoPaquete::where('paquete_id', $paquete->id)->where('destino_id', $request['destino_id'])->count();
+
+        /*foreach ($request['destinos'] as $destino) {
+
+            $noche = PaginaNoche::create([
+                'cantidad' => $destino['noches']
+            ]);
+            
+            PaginaDestinoPaquete::create([
+                'noche_id'      => $noche->id,
+                'destino_id'    => $destino['destino_id'],
+                'paquete_id'    => $destino['paquete_id'],
+            ]);
+        }*/
+        $noche = PaginaNoche::create([
+            'cantidad' => $request->noches,
+        ]);
+        
         PaginaDestinoPaquete::create([
             'noche_id'      => $noche->id,
-            'destino_id'    => $request->destino,
-            'paquete_id'    => $paquete->id,
+            'destino_id'    => $request->destino_id,
+            'paquete_id'    => $paque,
         ]);
-        return 1;
+
+        $destinosP = PaginaDestinoPaquete::where('paquete_id', $paque)->get();
+        //dd($destinosP);
+        
+        //return 1;
+        return redirect()->route('paquete.editar',$paque)->with('destinosP');
     }
 
-    public function destroyDestino(Request $request) {
-        $destinoPaquete = PaginaDestinoPaquete::findOrFail($request->destino);
+    public function destroyDestino(Request $request) 
+    {
+        //dd($request->all());
+        $destinoPaquete = PaginaDestinoPaquete::findOrFail($request['id']);
+        //dd($destinoPaquete);
         $destinoPaquete->delete();
-        return;
+        $paque = $destinoPaquete->paquete_id;
+        $destinosP = PaginaDestinoPaquete::where('paquete_id', $paque)->get();
+        //return;
+        return redirect()->route('paquete.editar',$paque)->with('destinosP');
     }
 
     public function enlazar(PaginaPaquete $paquete, Request $request){
-        if(count($request->multis) > 0){
+
+        //dd($request->all());
+        $dest = null;
+        foreach ($request['destinos'] as $destino) {
+            $codigo = bcrypt(str_random(15) . rand(1,999)).date("ymd");
+            $dest = $destino['destino_id'];
+            $noche = PaginaNoche::create([
+                'cantidad' => $destino['noches']
+            ]);    
+            PaginaListado::create([
+                'codigo'        => $codigo,
+                'noche_id'      => $noche->id,
+                'hotel_id'      => $destino['hotel_id'],
+                'paquete_id'    => $destino['paquete_id'],
+            ]);
+        }
+        /*if(count($request->multis) > 0){
             //bcrypt(str_random(15) . rand(1,999)).date("ymd");
             foreach($request->multis as $ml){
                 $codigo = bcrypt(str_random(15) . rand(1,999)).date("ymd");
@@ -154,9 +187,11 @@ class PaginaPaquetePaso2Controller extends Controller
                 }
             }
             //return;
-        }
+        }*/
         $paquete->load('listados.destino.hoteles.categoria', 'listados.noches','enlazados.hotel', 'enlazados.noches');
         return $paquete;
+        //return redirect()->route('paquete.editar', $paquete);
+        //return redirect()->back()->with($paquete);
     }
 
     public function estado($codigo){
@@ -178,20 +213,33 @@ class PaginaPaquetePaso2Controller extends Controller
         ]);
     }
 
-    public function eliminarEnlace(Request $request){
-        if($request->codigo === 'todos'){
-            $paquete = PaginaPaquete::findOrFail($request->paquete);
-            $paquete->load('enlazados');
-            foreach ($paquete->enlazados as $enlace) {
-                $enlace->delete();
-            }
-            return;
+    public function eliminarEnlace(Request $request)
+    {
+        //dd($request->all());
+        $enlace = PaginaListado::where('paquete_id', $request['enlazado_id'])->get();
+        //$enlace = PaginaListado::where('id', $request['enlazado_id'])->first();
+        //dd($enlace);
+        $enlace->each->delete();
+
+        $enlazados = PaginaListado::all();
+        $response = [];
+
+        foreach($enlazados as $enlazado) {
+            array_push($response, ['id' => $enlazado->id, 
+                                   'hotel' => $enlazado->hotel->nombre,
+                                   'estrella' => $enlazado->hotel->estrella,
+                                   'p_swb' => $enlazado->hotel->p_swb,
+                                   'p_dwb' => $enlazado->hotel->p_dwb,
+                                   'p_tpl' => $enlazado->hotel->p_tpl,
+                                   'p_chd' => $enlazado->hotel->p_chd,
+                                   'e_swb' => $enlazado->hotel->e_swb,
+                                   'e_dwb' => $enlazado->hotel->e_dwb,
+                                   'e_tpl' => $enlazado->hotel->e_tpl,
+                                   'e_chd' => $enlazado->hotel->e_chd,
+
+                                    ]);
         }
-        $enlaces = PaginaListado::where('codigo', $request->codigo)->get();
-        foreach ($enlaces as $enlace) {
-            $enlace->delete();
-        }
-        return;
+        return response()->json($response);
     }
 
     public function destacar_ind(Request $request)
@@ -256,7 +304,62 @@ class PaginaPaquetePaso2Controller extends Controller
             'destinos' => $destinos,
         ]);
     }
+    /*public function editDays(Request $request)
+    {
+        dd($request->all());
+        //$dias_actuales = PaginaDestinoPaquete::where('paquete_id', $request['paquete_id'])->where('destino_id', $request['destino_id'])->count();
+        $dias_actuales = PaginaDestinoPaquete::where('paquete_id', $request['id'])->where('destino_id', $request['destino_id'])->count();
 
+        if($request['dias'] > $dias_actuales)
+            $nuevos_dias = $request['dias'] - $dias_actuales;
+
+        $noches = PaginaNoche::find($request['id']);
+        $noches->cantidad = $request['dias'];
+        $noches->save();
+
+        for($i = 0; $i < $nuevos_dias; $i++)
+        {
+            $d = PaginaDestinoPaquete::create([
+                'noche_id' => $noches->id,
+                'destino_id' => $request['destino_id'],
+                //'paquete_id' => $request['paquete_id']
+                'paquete_id' => $request['id']
+            ]);
+
+            dd($d);
+        }
+
+        return 1;
+
+    }*/
+
+     public function editDays(Request $request)
+    {
+
+        $dias_actuales = PaginaDestinoPaquete::where('paquete_id', $request['paquete_id'])->where('destino_id', $request['destino_id'])->count();
+
+        if($request['dias'] > $dias_actuales)
+            $nuevos_dias = $request['dias'] - $dias_actuales;
+
+        $noches = PaginaNoche::find($request['id']);
+        $noches->cantidad = $request['dias'];
+        $noches->save();
+
+        for($i = 0; $i < $nuevos_dias; $i++)
+        {
+            $d = PaginaDestinoPaquete::create([
+                'noche_id' => $noches->id,
+                'destino_id' => $request['destino_id'],
+                'paquete_id' => $request['paquete_id']
+            ]);
+
+            dd($d);
+        }
+
+        return 1;
+
+    }
+    
     public function load_paquete(PaginaPaquete $paquete)
     {
         $paquete->load('listados.destino.hoteles.categoria', 'listados.noches','enlazados.hotel', 'enlazados.noches');
@@ -285,4 +388,5 @@ class PaginaPaquetePaso2Controller extends Controller
             }
         }
         return $otros;
-    }}
+    }
+}
