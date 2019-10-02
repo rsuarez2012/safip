@@ -413,8 +413,8 @@ class PaginaPaqueteController extends Controller
         $paquete = new PaginaPaquete();
         $categorias = PaginaCategoriaPaquete::all();
         $destinos = PaginaDestino::all();
-
-        return view('adminweb.paquetes.nuevo.create', compact('categorias', 'paquete', 'destinos')); 
+        $destinosP = PaginaDestino::all();
+        return view('adminweb.paquetes.nuevos.create', compact('categorias', 'paquete', 'destinos', 'destinosP')); 
     }
     public function store(Request $data)
     {

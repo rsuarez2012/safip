@@ -11,6 +11,10 @@ use App\Pagina\PaginaListado;
 use App\Pagina\PaginaServicio;
 use App\Pagina\PaginaActividad;
 use App\Pagina\PaginaRestaurante;
+use App\Pagina\PaginaDatoPaquete;
+use App\Pagina\PaginaDestinoPaquete;
+use App\Pagina\PaginaCategoriaPaquete;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use App\Pagina\PaginaActividadServicio;
@@ -93,7 +97,8 @@ class PaginaPaquetePaso3Controller extends Controller
     }
 
     public function tool_other_services(Request $request){
-        $destinos = PaginaDestino::whereIn('id', $request->destinos)->get();
+        //$destinos = PaginaDestino::whereIn('id', $request->destinos)->get();
+        $destinos = PaginaDestino::where('id', $request->destinos)->get();
         $servicios = [];
         foreach ($destinos as $destino) {
             foreach ($destino->operadores as $operador) {
@@ -107,7 +112,9 @@ class PaginaPaquetePaso3Controller extends Controller
     }
 
     public function tool_other_restaurants(Request $request){
-        $destinos = PaginaDestino::whereIn('id', $request->destinos)->get();
+        //dd($request->all());
+        //$destinos = PaginaDestino::whereIn('id', $request->destinos)->get();
+        $destinos = PaginaDestino::where('id', $request->destinos)->get();
         $restaurantes = [];
         foreach ($destinos as $destino) {
             foreach ($destino->restaurantes as $restaurante) {
@@ -119,7 +126,7 @@ class PaginaPaquetePaso3Controller extends Controller
     }
 
     public function tool_neto($id){
-    	$paquete  = PaginaPaquete::findOrFail($id);
+        $paquete  = PaginaPaquete::findOrFail($id);
         $enlazados = [];
         $ultimo="";
         foreach ($paquete->enlazados as $enlace) {
@@ -129,55 +136,55 @@ class PaginaPaquetePaso3Controller extends Controller
                 
                 //nuevas variables
                 $new_p_swb = 0;
-				$new_p_dwb = 0;
-				$new_p_tpl = 0;
-				$new_p_chd = 0;
-				$new_e_swb = 0;
-				$new_e_dwb = 0;
-				$new_e_tpl = 0;
+                $new_p_dwb = 0;
+                $new_p_tpl = 0;
+                $new_p_chd = 0;
+                $new_e_swb = 0;
+                $new_e_dwb = 0;
+                $new_e_tpl = 0;
                 $new_e_chd = 0;
                 
                 if($enlace->hotel->p_swb > 0){ $new_p_swb =  $enlace->hotel->p_swb * $noches; }
-			    if($enlace->hotel->p_dwb > 0){ $new_p_dwb = ($enlace->hotel->p_dwb * $noches) / 2; }
-			    if($enlace->hotel->p_tpl > 0){ $new_p_tpl = ($enlace->hotel->p_tpl * $noches) / 3; }
-			    if($enlace->hotel->p_chd > 0){ $new_p_chd = ($enlace->hotel->p_chd * $noches) / 4; }
-			    if($enlace->hotel->e_swb > 0){ $new_e_swb =  $enlace->hotel->e_swb * $noches; }
-			    if($enlace->hotel->e_dwb > 0){ $new_e_dwb = ($enlace->hotel->e_dwb * $noches) / 2; }
-			    if($enlace->hotel->e_tpl > 0){ $new_e_tpl = ($enlace->hotel->e_tpl * $noches) / 3; }
-			    if($enlace->hotel->e_chd > 0){ $new_e_chd = ($enlace->hotel->e_chd * $noches) / 4; }
+                if($enlace->hotel->p_dwb > 0){ $new_p_dwb = ($enlace->hotel->p_dwb * $noches) / 2; }
+                if($enlace->hotel->p_tpl > 0){ $new_p_tpl = ($enlace->hotel->p_tpl * $noches) / 3; }
+                if($enlace->hotel->p_chd > 0){ $new_p_chd = ($enlace->hotel->p_chd * $noches) / 4; }
+                if($enlace->hotel->e_swb > 0){ $new_e_swb =  $enlace->hotel->e_swb * $noches; }
+                if($enlace->hotel->e_dwb > 0){ $new_e_dwb = ($enlace->hotel->e_dwb * $noches) / 2; }
+                if($enlace->hotel->e_tpl > 0){ $new_e_tpl = ($enlace->hotel->e_tpl * $noches) / 3; }
+                if($enlace->hotel->e_chd > 0){ $new_e_chd = ($enlace->hotel->e_chd * $noches) / 4; }
                 
                 // AGREGAR HOTEL A LA LISTA
                 array_push($enlazados[$ultimo]['hoteles'],$enlace->hotel->nombre);
 
                 if($enlazados[$ultimo]['p_swb'] > 0){ $enlazados[$ultimo]['p_swb'] += $new_p_swb; }
-			    if($enlazados[$ultimo]['p_dwb'] > 0){ $enlazados[$ultimo]['p_dwb'] += $new_p_dwb; }
-			    if($enlazados[$ultimo]['p_tpl'] > 0){ $enlazados[$ultimo]['p_tpl'] += $new_p_tpl; }
-			    if($enlazados[$ultimo]['p_chd'] > 0){ $enlazados[$ultimo]['p_chd'] += $new_p_chd; }
-                if($enlazados[$ultimo]['e_swb'] > 0){ $enlazados[$ultimo]['e_swb'] += $new_e_swb; }	    
+                if($enlazados[$ultimo]['p_dwb'] > 0){ $enlazados[$ultimo]['p_dwb'] += $new_p_dwb; }
+                if($enlazados[$ultimo]['p_tpl'] > 0){ $enlazados[$ultimo]['p_tpl'] += $new_p_tpl; }
+                if($enlazados[$ultimo]['p_chd'] > 0){ $enlazados[$ultimo]['p_chd'] += $new_p_chd; }
+                if($enlazados[$ultimo]['e_swb'] > 0){ $enlazados[$ultimo]['e_swb'] += $new_e_swb; }     
                 if($enlazados[$ultimo]['e_dwb'] > 0){ $enlazados[$ultimo]['e_dwb'] += $new_e_dwb; }
-			    if($enlazados[$ultimo]['e_tpl'] > 0){ $enlazados[$ultimo]['e_tpl'] += $new_e_tpl; }
-			    if($enlazados[$ultimo]['e_chd'] > 0){ $enlazados[$ultimo]['e_chd'] += $new_e_chd; }
+                if($enlazados[$ultimo]['e_tpl'] > 0){ $enlazados[$ultimo]['e_tpl'] += $new_e_tpl; }
+                if($enlazados[$ultimo]['e_chd'] > 0){ $enlazados[$ultimo]['e_chd'] += $new_e_chd; }
             }else{
                 // VARIABLE CON NOCHES
                 $noches = $enlace->noches->cantidad;
 
                 //nuevas variables
                 $new_p_swb = 0;
-				$new_p_dwb = 0;
-				$new_p_tpl = 0;
-				$new_p_chd = 0;
-				$new_e_swb = 0;
-				$new_e_dwb = 0;
-				$new_e_tpl = 0;
+                $new_p_dwb = 0;
+                $new_p_tpl = 0;
+                $new_p_chd = 0;
+                $new_e_swb = 0;
+                $new_e_dwb = 0;
+                $new_e_tpl = 0;
                 $new_e_chd = 0;
                 
                 if($enlace->hotel->p_swb > 0){ $new_p_swb =  $enlace->hotel->p_swb * $noches; }
-			    if($enlace->hotel->p_dwb > 0){ $new_p_dwb = ($enlace->hotel->p_dwb * $noches) / 2; }
-			    if($enlace->hotel->p_tpl > 0){ $new_p_tpl = ($enlace->hotel->p_tpl * $noches) / 3; }
-			    if($enlace->hotel->p_chd > 0){ $new_p_chd = ($enlace->hotel->p_chd * $noches) / 4; }
-			    if($enlace->hotel->e_swb > 0){ $new_e_swb =  $enlace->hotel->e_swb * $noches; }
-			    if($enlace->hotel->e_dwb > 0){ $new_e_dwb = ($enlace->hotel->e_dwb * $noches) / 2; }
-			    if($enlace->hotel->e_tpl > 0){ $new_e_tpl = ($enlace->hotel->e_tpl * $noches) / 3; }
+                if($enlace->hotel->p_dwb > 0){ $new_p_dwb = ($enlace->hotel->p_dwb * $noches) / 2; }
+                if($enlace->hotel->p_tpl > 0){ $new_p_tpl = ($enlace->hotel->p_tpl * $noches) / 3; }
+                if($enlace->hotel->p_chd > 0){ $new_p_chd = ($enlace->hotel->p_chd * $noches) / 4; }
+                if($enlace->hotel->e_swb > 0){ $new_e_swb =  $enlace->hotel->e_swb * $noches; }
+                if($enlace->hotel->e_dwb > 0){ $new_e_dwb = ($enlace->hotel->e_dwb * $noches) / 2; }
+                if($enlace->hotel->e_tpl > 0){ $new_e_tpl = ($enlace->hotel->e_tpl * $noches) / 3; }
                 if($enlace->hotel->e_chd > 0){ $new_e_chd = ($enlace->hotel->e_chd * $noches) / 4; }
                 
                 // NUEVO INDICE CON DATOS
@@ -474,20 +481,83 @@ class PaginaPaquetePaso3Controller extends Controller
             $paquete->statusCreado = '3';
             $paquete->update();
         }
-        return view('adminweb.paquetes.pasos.paso3')->with('paquete_id',$paquete->id);
+        $paquete_id = $paquete->id;
+        $dias = PaginaDia::where('paquete_id', $paquete->id)->get();
+        //dd($dias);
+        //return view('adminweb.paquetes.pasos.paso3')->with('paquete_id',$paquete->id);
+        return view('adminweb.paquetes.nuevos.actividades', compact('paquete_id', 'dias'));
     }
 
     public function agregarDia(Request $request,$paquete_id)
     { 
-        foreach($request->days as $index => $day)
+
+        //dd($request->all());
+        $ab = $request->cantiDias;
+        //dd($ab);
+        $dias = array();
+        foreach ($request['nameFree'] as $key => $nombreDia) {
+            $dias[$key]['nombre'] = $request->nameFree;
+            $dias[$key]['descripcion'] = $request->description;
+            $dias[$key]['paquete_id'] = $request->paquete_id;
+            $dias[$key]['imagen'] = $request->imagen;
+            $dias[$key]['freeDay']= $request->freeDay;
+
+
+            $i = 0;
+            
+
+            foreach ($dias as $day) {
+                $dia = new PaginaDia();
+                $dia->nombre = $day['nombre'][$i];
+                $dia->descripcion = $day['descripcion'][$i];
+                $dia->paquete_id = $day['paquete_id'];
+                if ($day['freeDay'] != 1) 
+                {
+                    $carpetas = [["original",null],["miniature",100],["medium",300],["big",700]];   
+                    if ($request->file("img-".$key)) 
+                    {
+                        $imagenOriginal = $request->file("img-".$key);
+                        $temp_name ="img_dia_" .str_random(15) . '_'. date("ymd") .".". $imagenOriginal->getClientOriginalExtension();
+                        foreach($carpetas as $key => $carpeta){
+                            if($key != 0)
+                            { 
+                                $imagen = Image::make($imagenOriginal)->resize($carpeta[1],null,
+                                function($constraint){
+                                    $constraint->aspectRatio();
+                                })
+                                ->resizeCanvas($carpeta[1],null);
+                            }else{
+                                $imagen = Image::make($imagenOriginal);
+                            }
+                        $ruta = public_path().'/storage/'.$carpeta[0]."/dia";
+                        $imagen->save($ruta . $temp_name, 100);
+                        }
+                        $dia->imagen = $temp_name;
+                    }
+                }else{
+                    $dia->imagen = "dia_libre.jpg";
+                }
+                $dia->save();  
+
+                $i++;
+                //dd($dia);
+
+            }
+            
+            
+        }
+        //return $request->dias;
+        return redirect()->back();
+       
+        /*foreach($request->days as $index => $day)
         {
-            $dia 		      = new PaginaDia(); 
+            $dia              = new PaginaDia(); 
             $dia->nombre      = $day["name"];
             $dia->descripcion = $day["description"];
             $dia->paquete_id  = $paquete_id;
             if ($day["libre"] == "false") 
             {
-                $carpetas = [["original",null],["miniature",100],["medium",300],["big",700]];	
+                $carpetas = [["original",null],["miniature",100],["medium",300],["big",700]];   
                 if ($request->file("img-".$index)) 
                 {
                     $imagenOriginal = $request->file("img-".$index);
@@ -499,7 +569,7 @@ class PaginaPaquetePaso3Controller extends Controller
                             function($constraint){
                                 $constraint->aspectRatio();
                             })
-					        ->resizeCanvas($carpeta[1],null);
+                            ->resizeCanvas($carpeta[1],null);
                         }else{
                             $imagen = Image::make($imagenOriginal);
                         }
@@ -513,14 +583,14 @@ class PaginaPaquetePaso3Controller extends Controller
             }
             $dia->save();    
         }
-        return $request->days;
+        return $request->days;*/
     }
     public function updatedDia(Request $data,$paquete_id){
         $dia=PaginaDia::find($data->day_id);
         
 
-			if ($data->file('img')) 
-			{
+            if ($data->file('img')) 
+            {
                 if($dia->imagen != "dia_libre.jpg"){
                     Storage::disk('public')->delete('big/'.$dia->imagen);
                     Storage::disk('public')->delete('medium/'.$dia->imagen);
@@ -528,17 +598,17 @@ class PaginaPaquetePaso3Controller extends Controller
                     Storage::disk('public')->delete('original/'.$dia->imagen);
                 }
                 $carpetas = [["original",null],["big",700],["medium",300],["miniature",100]];
-				$imagenOriginal = $data->file('img');
-				$imagen = Image::make($imagenOriginal);
-				$temp_name ="img_paquete_" .str_random(15) . '_'. date("ymd") .".". $imagenOriginal->getClientOriginalExtension();
-				foreach($carpetas as $index => $carpeta){
-				if($index != 0){
-					$imagen->heighten($carpeta[1], function ($constraint) {
-						$constraint->aspectRatio();
-					});
-				}
-				$ruta = public_path().'/storage/'."/".$carpeta[0]."/";
-				$imagen->save($ruta . $temp_name, 100);
+                $imagenOriginal = $data->file('img');
+                $imagen = Image::make($imagenOriginal);
+                $temp_name ="img_paquete_" .str_random(15) . '_'. date("ymd") .".". $imagenOriginal->getClientOriginalExtension();
+                foreach($carpetas as $index => $carpeta){
+                if($index != 0){
+                    $imagen->heighten($carpeta[1], function ($constraint) {
+                        $constraint->aspectRatio();
+                    });
+                }
+                $ruta = public_path().'/storage/'."/".$carpeta[0]."/";
+                $imagen->save($ruta . $temp_name, 100);
                 }
 
                 if ($dia->nombre != "Dia Libre") {
@@ -570,32 +640,33 @@ class PaginaPaquetePaso3Controller extends Controller
     }
     public function agregarActividad(Request $data,PaginaDia $day)
     {
+        dd($data->all());
         $actividad         = new PaginaActividad();
-    	$actividad->nombre = $data->activity['name'];
+        $actividad->nombre = $data->activity['name'];
         $actividad->tipo   = $data->activity['type'];
         /* $actividad->codigo   = $data->activity['code']; */
-    	$actividad->dia_id    = $day->id;
-    	$actividad->save();
-    	if ($actividad->tipo == "restaurante") {
-    		$nuevo                 = new PaginaActividadRestaurante();
-    		$nuevo->restaurante_id = $data->activity['item_id'];
-    		$nuevo->actividad_id   = $actividad->id;
-    		$nuevo->save(); 
-    	    return $actividad->load('restaurante.restaurante.peruano',
+        $actividad->dia_id    = $day->id;
+        $actividad->save();
+        if ($actividad->tipo == "restaurante") {
+            $nuevo                 = new PaginaActividadRestaurante();
+            $nuevo->restaurante_id = $data->activity['item_id'];
+            $nuevo->actividad_id   = $actividad->id;
+            $nuevo->save(); 
+            return $actividad->load('restaurante.restaurante.peruano',
                                     'restaurante.restaurante.comunidad',
                                     'restaurante.restaurante.extranjero',
                                     'restaurante.restaurante.destino');
         }elseif ($actividad->tipo == "servicio") {
             $nuevo                = new PaginaActividadServicio();
-    		$nuevo->servicio_id   = $data->activity['item_id'];
-    		$nuevo->actividad_id  = $actividad->id;
-    		$nuevo->save(); 
+            $nuevo->servicio_id   = $data->activity['item_id'];
+            $nuevo->actividad_id  = $actividad->id;
+            $nuevo->save(); 
             return $actividad->load('servicio.servicio.peruano',
                                     'servicio.servicio.comunidad',
                                     'servicio.servicio.extranjero',
                                     'servicio.servicio.operador');
-    	}
-    	/*return back();//redirect()->route('managePaquete-paso-3-A' , [$dia->paquete_id] );*/
+        }
+        /*return back();//redirect()->route('managePaquete-paso-3-A' , [$dia->paquete_id] );*/
     }
 
     public function tool($actividad){
@@ -636,8 +707,41 @@ class PaginaPaquetePaso3Controller extends Controller
         return;
     }
 
-    public function edit($id){
-        return view('adminweb.paquetes.pasos.paso3')->with(['edit' => true,'paquete_id' => $id ]);
+    /*public function edit($id){
+        //return view('adminweb.paquetes.pasos.paso3')->with(['edit' => true,'paquete_id' => $id ]);
+        return view('adminweb.paquetes.nuevo.dias')->with(['edit' => true,'paquete_id' => $id ]);
+    }*/
+    public function edit(PaginaPaquete $paquete)
+    {
+
+        //$dat = PaginaDatoPaquete::where('paquete_id', $paquete->id)->get();
+        /*$datos = PaginaDatoPaquete::where('paquete_id', $paquete->id)->where('tipo', 'incluido')->get();
+        $llevar = PaginaDatoPaquete::where('paquete_id', $paquete->id)->where('tipo', 'llevar')->get();
+        $politicas = PaginaDatoPaquete::where('paquete_id', $paquete->id)->where('tipo', 'politcareserva')->get();
+        $fechas = PaginaDatoPaquete::where('paquete_id', $paquete->id)->where('tipo', 'fechas')->get();
+        $noincluidos = PaginaDatoPaquete::where('paquete_id', $paquete->id)->where('tipo', 'noincluido')->get();
+        $tarifas = PaginaDatoPaquete::where('paquete_id', $paquete->id)->where('tipo', 'politicatarifa')->get();
+        $responsabilidades = PaginaDatoPaquete::where('paquete_id', $paquete->id)->where('tipo', 'responsabilidades')->get();
+        $importantes = PaginaDatoPaquete::where('paquete_id', $paquete->id)->where('tipo', 'importante')->get();;
+        $paquete_id = $paquete;
+
+        //dd($destinosP);*/
+        $dat = $paquete->id;
+        $destinos = PaginaDestino::get();
+        $categorias = PaginaCategoriaPaquete::all();
+        $destinosP = PaginaDestinoPaquete::where('paquete_id', $dat)->get();
+        
+        //return view('adminweb.paquetes.nuevo.dias', compact('datos', 'paquete_id', 'llevar', 'politicas', 'fechas', 'noincluidos', 'tarifas', 'responsabilidades', 'importantes', 'dat', 'categorias', 'paquete', 'destinos', 'destinosP'));
+        $paquete_id = $paquete->id;
+
+        $noches = PaginaListado::where('paquete_id', $paquete_id)->get();
+
+        $onlydes = PaginaDestinoPaquete::where('paquete_id', $paquete_id)->get();
+       
+        $dias = PaginaDia::where('paquete_id', $paquete->id)->get();
+        
+        return view('adminweb.paquetes.nuevos.dias', compact('paquete_id', 'paquete', 'destinos', 'noches', 'onlydes', 'categorias', 'destinosP', 'dat','dias'));
+    
     }
     public function getPackage(PaginaPaquete $id){
         $id->load("dias.actividades.servicio.servicio.operador",
@@ -657,8 +761,8 @@ class PaginaPaquetePaso3Controller extends Controller
         return;
     }
     /* public function cargarImagenes($data){
-		
-		return $temp_name;
-		
-	} */
+        
+        return $temp_name;
+        
+    } */
 }

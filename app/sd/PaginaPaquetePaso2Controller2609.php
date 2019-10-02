@@ -15,7 +15,7 @@ class PaginaPaquetePaso2Controller extends Controller
 {
     # Herramienta para simplificacion y uso de estos datos en varias funciones
     public function tool($id){
-        $destinos = PaginaDestino::all();
+    	$destinos = PaginaDestino::all();
         $paquete  = PaginaPaquete::findOrFail($id);
         $hoteles  = PaginaHotel::all();
 
@@ -117,7 +117,7 @@ class PaginaPaquetePaso2Controller extends Controller
     public function destroyDestino(Request $request) 
     {
         //dd($request->all());
-        $destinoPaquete = PaginaDestinoPaquete::findOrFail($request['id']);
+        $destinoPaquete = PaginaDestinoPaquete::findOrFail($request->destino);
         //dd($destinoPaquete);
         $destinoPaquete->delete();
         $paque = $destinoPaquete->paquete_id;
@@ -132,10 +132,14 @@ class PaginaPaquetePaso2Controller extends Controller
         $dest = null;
         foreach ($request['destinos'] as $destino) {
             $codigo = bcrypt(str_random(15) . rand(1,999)).date("ymd");
-            $dest = $destino['destino_id'];
-            $noche = PaginaNoche::create([
-                'cantidad' => $destino['noches']
-            ]);    
+
+            if($dest != $destino['destino_id']) {
+                $dest = $destino['destino_id'];
+                $noche = PaginaNoche::create([
+                    'cantidad' => $destino['noches']
+                ]);    
+            }
+            
             PaginaListado::create([
                 'codigo'        => $codigo,
                 'noche_id'      => $noche->id,
@@ -189,9 +193,8 @@ class PaginaPaquetePaso2Controller extends Controller
             //return;
         }*/
         $paquete->load('listados.destino.hoteles.categoria', 'listados.noches','enlazados.hotel', 'enlazados.noches');
-        return $paquete;
-        //return redirect()->route('paquete.editar', $paquete);
-        //return redirect()->back()->with($paquete);
+        //return $paquete;
+        return redirect()->route('paquete.edit.paso3', $paquete);
     }
 
     public function estado($codigo){
@@ -215,11 +218,9 @@ class PaginaPaquetePaso2Controller extends Controller
 
     public function eliminarEnlace(Request $request)
     {
-        //dd($request->all());
-        $enlace = PaginaListado::where('paquete_id', $request['enlazado_id'])->get();
-        //$enlace = PaginaListado::where('id', $request['enlazado_id'])->first();
-        //dd($enlace);
-        $enlace->each->delete();
+
+        $enlace = PaginaListado::where('id', $request['enlazado_id'])->first();
+        $enlace->delete();
 
         $enlazados = PaginaListado::all();
         $response = [];
@@ -304,62 +305,7 @@ class PaginaPaquetePaso2Controller extends Controller
             'destinos' => $destinos,
         ]);
     }
-    /*public function editDays(Request $request)
-    {
-        dd($request->all());
-        //$dias_actuales = PaginaDestinoPaquete::where('paquete_id', $request['paquete_id'])->where('destino_id', $request['destino_id'])->count();
-        $dias_actuales = PaginaDestinoPaquete::where('paquete_id', $request['id'])->where('destino_id', $request['destino_id'])->count();
 
-        if($request['dias'] > $dias_actuales)
-            $nuevos_dias = $request['dias'] - $dias_actuales;
-
-        $noches = PaginaNoche::find($request['id']);
-        $noches->cantidad = $request['dias'];
-        $noches->save();
-
-        for($i = 0; $i < $nuevos_dias; $i++)
-        {
-            $d = PaginaDestinoPaquete::create([
-                'noche_id' => $noches->id,
-                'destino_id' => $request['destino_id'],
-                //'paquete_id' => $request['paquete_id']
-                'paquete_id' => $request['id']
-            ]);
-
-            dd($d);
-        }
-
-        return 1;
-
-    }*/
-
-     public function editDays(Request $request)
-    {
-
-        $dias_actuales = PaginaDestinoPaquete::where('paquete_id', $request['paquete_id'])->where('destino_id', $request['destino_id'])->count();
-
-        if($request['dias'] > $dias_actuales)
-            $nuevos_dias = $request['dias'] - $dias_actuales;
-
-        $noches = PaginaNoche::find($request['id']);
-        $noches->cantidad = $request['dias'];
-        $noches->save();
-
-        for($i = 0; $i < $nuevos_dias; $i++)
-        {
-            $d = PaginaDestinoPaquete::create([
-                'noche_id' => $noches->id,
-                'destino_id' => $request['destino_id'],
-                'paquete_id' => $request['paquete_id']
-            ]);
-
-            dd($d);
-        }
-
-        return 1;
-
-    }
-    
     public function load_paquete(PaginaPaquete $paquete)
     {
         $paquete->load('listados.destino.hoteles.categoria', 'listados.noches','enlazados.hotel', 'enlazados.noches');
@@ -388,5 +334,4 @@ class PaginaPaquetePaso2Controller extends Controller
             }
         }
         return $otros;
-    }
-}
+    }}

@@ -29,7 +29,7 @@ class PaginaPaquete extends Model
     }
     // ENLAZADOS
     public function enlazados(){
-        return $this->hasMany('\App\Pagina\PaginaListado','paquete_id')->orderBy('hotel_id');
+        return $this->hasMany('\App\Pagina\PaginaListado','paquete_id');
     }
     // DATOS 
     public function datos(){

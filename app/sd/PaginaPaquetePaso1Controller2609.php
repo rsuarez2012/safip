@@ -166,10 +166,10 @@ class PaginaPaquetePaso1Controller extends Controller
 		$dat = $paquete->id;
 		$categorias = PaginaCategoriaPaquete::all();
 		$destinos = PaginaDestino::get();
-		$destinosP = PaginaDestinoPaquete::where('paquete_id', $dat)->groupBy(['destino_id'])->get();
+		$destinosP = PaginaDestinoPaquete::where('paquete_id', $dat)->get();
 		//dd($destinosP);
 		/*return view('adminweb.paquetes.pasos.paso1', compact('datos', 'paquete_id', 'llevar', 'politicas', 'fechas', 'noincluidos', 'tarifas', 'responsabilidades', 'importantes', 'dat'));*/
-		return view('adminweb.paquetes.nuevos.edit', compact('datos', 'paquete_id', 'llevar', 'politicas', 'fechas', 'noincluidos', 'tarifas', 'responsabilidades', 'importantes', 'dat', 'categorias', 'paquete', 'destinos', 'destinosP'));
+		return view('adminweb.paquetes.nuevo.edit', compact('datos', 'paquete_id', 'llevar', 'politicas', 'fechas', 'noincluidos', 'tarifas', 'responsabilidades', 'importantes', 'dat', 'categorias', 'paquete', 'destinos', 'destinosP'));
 	
 	}
 	public function update(Request $request, PaginaPaquete $paquete)
@@ -229,13 +229,12 @@ class PaginaPaquetePaso1Controller extends Controller
     }
     public function destinosP(Request $request)
     {
-    	//if($request->ajax()){
+    	//dd($request->all());
+    	if($request->ajax()){
 
 			$destinosP = PaginaHotel::where('destino_id', $request['destino'])->get();
-		    //	dd($destinosP);
 	    	return response()->json($destinosP);
-	    	//return $destinosP;
-    	//}
+    	}
     	//dd($destinosP[0]->destino->nombre);
     }
 }

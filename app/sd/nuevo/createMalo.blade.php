@@ -30,9 +30,11 @@
                 <div class="nav-tabs-custom">
                     <ul class="nav nav-tabs" id="tabs">
                         <li id="t1" class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Perfil del paquete</a></li>
-                        <li id="t2" class><a href="#tab_2" data-toggle="tab" aria-expanded="false" id="a_tab2">Destinos y Hoteles</a></li>
-                        <li id="t3" class><a href="#tab_3" data-toggle="tab" aria-expanded="false" id="a_tab3">Dias y Actividades</a></li>
-                        <li id="t4" class><a href="#tab_4" data-toggle="tab" aria-expanded="false" id="a_tab4">Precios</a></li>
+                        <li id="t2" class="disabled"><a class="disabled"  >Destinos y Hoteles</a></li>
+                        <li id="t3" class="disabled"><a class="disabled">Dias</a></li>
+                        <li id="t4" class="disabled"><a class="disabled">Actividades</a></li>
+                        <li id="t5" class="disabled"><a class="disabled">Precios</a></li>
+                        <li id="t6" class="disabled"><a class="disabled">Datos del paquete</a></li>
                     </ul>
                     <div class="tab-content">
                         <!--datos del paquete-->
@@ -40,16 +42,16 @@
                             <form action="{{ route('paquete.guardar') }}" method="POST" accept-charset="UTF-8" enctype="multipart/form-data">
                                 {{ csrf_field() }}
                                 @include('adminweb.paquetes.nuevo.partials.datos')
-                                <button class="btn btn-danger pull-right" type="submit">Guardar</button>
+                                <button class="btn btn-danger pull-right" type="submit" style="margin-top:-30px;">Guardar</button>
                             </form>
                         </div>
                         <!--configuracion del paquete-->
                         <div class="tab-pane" id="tab_2">
-                            @include('adminweb.paquetes.nuevo.partials.destinos')
+                            {{--@include('adminweb.paquetes.nuevo.partials.destinos')--}}
                         </div>
                         <!--itinerario-->
                         <div class="tab-pane" id="tab_3">
-                            @include('adminweb.paquetes.nuevo.partials.dia')
+                            {{--@include('adminweb.paquetes.nuevo.partials.dia')--}}
                         </div>
                         <!--adicionales--> 
                         <div class="tab-pane" id="tab_4">
@@ -63,6 +65,9 @@
 </div> 
 @endsection
 @section('script')
+<script src="{{asset('js/nuevo/create.js')}}"></script>
+@endsection
+
 <!--<script type="text/javascript">
   var protocol = $(location).attr('protocol');
   var url = $(location).attr('host');
@@ -369,7 +374,7 @@
                   _token: $('#signup-token').val(),
                   texto: texto,
                },*/
-               url: '/validate/code/'+cod,
+               url: '/safip/public/validate/code/'+cod,
                success:function(data){
                     console.log(data);
                     if (data > 0) {
@@ -412,7 +417,7 @@
    })
 
 </script>-->
-<script type="text/javascript">
+<!--<script type="text/javascript">
   $(document).ready(function(){
     $('#dest').select2({
       with: '100%'
@@ -453,5 +458,4 @@
                             //$('#details').append(fila);
                             //
   });
-</script>
-@endsection
+</script>-->

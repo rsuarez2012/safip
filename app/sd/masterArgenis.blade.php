@@ -176,7 +176,7 @@
 <script src="{{ asset('js/chosen.jquery.js') }}"></script>
 <script src="{{ asset('js/jquery.multi-select.js') }}"></script>
 <script src="{{ asset('js/jquery.quicksearch.js') }}"></script>
-<script src="{{-- asset('js/nuevo/create.js') --}}"></script>
+
 <script src="{{-- asset('js/init.js') --}}"></script>
 
     @yield('script')
@@ -187,17 +187,10 @@
           $("#cantidad_boletos_por_validar").text(response.data)
         }).catch(errors =>{
           console.log(errors.response)
-        })
-        //js create
-        $.ajaxSetup({
-          headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          }
         });
 
-       
-      });
-
+        
+      })
     </script>
   </body>
   </html>

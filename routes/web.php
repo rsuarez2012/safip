@@ -503,8 +503,17 @@ Route::group(['middleware'=>['authen','roles'],'roles'=>['1']],function(){
     Route::post('paquetes/guardar', 'Pagina\PaginaPaquetePaso1Controller@store')->name('paquete.guardar');
     Route::get('paquete/editar/{paquete}', 'Pagina\PaginaPaquetePaso1Controller@edit')->name('paquete.editar');
     Route::post('paquete/actualizar', 'Pagina\PaginaPaquetePaso1Controller@update')->name('paquete.actualizar');
+
+    Route::get('paquete/editar/dias/{paquete}',
+               'Pagina\PaginaPaquetePaso3Controller@edit')
+         ->name('paquete.edit.paso3');
+    Route::get('paquete/editar/dias/actividades/{paquete}', 'Pagina\PaginaPaquetePaso3Controller@index')->name('paquete.editActividades.paso3');
+
+    Route::get('destinosP/{destino}', 'Pagina\PaginaPaquetePaso1Controller@destinosP');
+
+    Route::post('dias/destino/{dia}', 'Pagina\PaginaPaquetePaso2Controller@editDays');
     ////////////////////////////////////////////////////////////////
-    Route::get('/tablero/Paquetes/Admin/Continuar/{paquete}/{statusCreado}', function($paquete, $statusCreado) {
+    /*Route::get('/tablero/Paquetes/Admin/Continuar/{paquete}/{statusCreado}', function($paquete, $statusCreado) {
         if($statusCreado === '2'):
             return redirect()->route('managePaquete-paso-2-A', $paquete);
         elseif($statusCreado === '3'):
@@ -514,7 +523,25 @@ Route::group(['middleware'=>['authen','roles'],'roles'=>['1']],function(){
         else:
             return back();
         endif;
+    })->name('continuar.paquete');*/
+    ////////////////////////////////////////////////////////////////
+    ///////se cambiaron las rutas de arriba por las que vienen a continuacion/////////////////////////////////////
+    ///
+    Route::get('/tablero/Paquetes/Admin/Continuar/{paquete}/{statusCreado}', function($paquete, $statusCreado) {
+        if($statusCreado === '2'):
+            return redirect()->route('paquete.editar', $paquete);
+            //return redirect()->route('managePaquete-paso-2-A', $paquete);
+            
+        elseif($statusCreado === '3'):
+            return redirect()->route('paquete.edit.paso3', $paquete);
+        elseif($statusCreado === '4'):
+            return redirect()->route('managePaquete-paso-4-A', $paquete);
+        else:
+            return back();
+        endif;
     })->name('continuar.paquete');
+
+    //////////////////////////END ROUTES NEW BTN CONTINUE
     Route::get('/tablero/Paquetes/Admin/Finalizar/{paquete}',['as'=>'managePaquete-Finalizar-A','uses'=>'Pagina\PaginaPaqueteController@finalizar']);
 
     Route::get('/tablero/Paquetes/Admin/Cambiar/Estado/{paquete}/{valor}',['as'=>'managePaquete-CambiarEstado-A','uses'=>'Pagina\PaginaPaqueteController@estado']);
@@ -557,7 +584,8 @@ Route::group(['middleware'=>['authen','roles'],'roles'=>['1']],function(){
     Route::get('/Paso/2/load/paquete/{paquete}', 'Pagina\PaginaPaquetePaso2Controller@load_paquete');
     Route::post('/Paso/2/load/destinos', 'Pagina\PaginaPaquetePaso2Controller@load_destinos');
     Route::post('/Paso/2/Paquete/{paquete}/Agregar/Destino', 'Pagina\PaginaPaquetePaso2Controller@agregarDestino')->name('agregar.desr');
-    Route::post('/Paso/2/Paquete/DestroyDestino', 'Pagina\PaginaPaquetePaso2Controller@destroyDestino');
+    Route::post('/cargar/destinos/{paquete}', 'Pagina\PaginaPaquetePaso2Controller@cargarDestino');
+    Route::post('/Paso/2/Paquete/DestroyDestino/{destino}', 'Pagina\PaginaPaquetePaso2Controller@destroyDestino');
     Route::post('/Paso/2/Enlazar/Hoteles/Paquete/{paquete}', 'Pagina\PaginaPaquetePaso2Controller@enlazar')->name('paquete.renlace');
     Route::post('/Paso/2/Paquete/DestroyEnlace', 'Pagina\PaginaPaquetePaso2Controller@eliminarEnlace');
     Route::post('/Paso/2/Destacar/Hoteles/Ind', 'Pagina\PaginaPaquetePaso2Controller@destacar_ind');
@@ -603,7 +631,7 @@ Route::group(['middleware'=>['authen','roles'],'roles'=>['1']],function(){
     Route::post('/tablero/Admin/Paso/3/Other_Services',
                'Pagina\PaginaPaquetePaso3Controller@tool_other_services'); // ESTA RUTA ESTA REPETIDA
 
-    Route::post('/save/activity/day/{day}',
+    Route::post('/save/activity/day/',
                'Pagina\PaginaPaquetePaso3Controller@agregarActividad');
 
     Route::get('/get/neto/package/{paquete}',
@@ -632,9 +660,9 @@ Route::group(['middleware'=>['authen','roles'],'roles'=>['1']],function(){
 
     Route::get('/tablero/Admin/Paso/3/Itinerario/Paquete/{id}',['as'=>'managePaquete-paso-3-A','uses'=>'Pagina\PaginaPaquetePaso3Controller@index']);
 
-    Route::get('/tablero/Admin/Paso/3/Itinerario/Paquete/{id}/edit',
+    /*Route::get('/tablero/Admin/Paso/3/Itinerario/Paquete/{id}/edit',
                'Pagina\PaginaPaquetePaso3Controller@edit')
-         ->name('paquete.edit.paso3');
+         ->name('paquete.edit.paso3');*/
 
     Route::post('/tablero/Admin/Paso/3/Agregar/Dia/{paquete_id}',['as'=>'managePaquete-paso-3-agregar-dia','uses'=>'Pagina\PaginaPaquetePaso3Controller@agregarDia']);
 
